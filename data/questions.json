@@ -1,0 +1,21 @@
+[
+    {
+        "question": "Quel est ton animal préféré ?",
+        "options": [
+            "Chien",
+            "Chat",
+            "Lapin",
+            "Oiseau"
+        ]
+    },
+
+    {
+        "question": "Quelle est ta couleur préférée ?",
+        "options": [
+            "Rouge",
+            "Bleu",
+            "Vert",
+            "Jaune"
+        ]
+    }
+]
