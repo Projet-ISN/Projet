@@ -2,6 +2,9 @@ import os
 
 from dotenv import find_dotenv, load_dotenv
 
+from model.User import User
+from model.UserAccountInformation import UserAccountInformation
+from model.UserPersonalInformation import UserPersonalInformation
 from model.database.DatabaseConnector import DatabaseConnector
 from model.database.AccountDAO import AccountDAO
 
@@ -17,7 +20,14 @@ def main():
         os.environ.get("DATABASE_NAME"),
     )
 
+    user_information = UserAccountInformation("davipccunha", "password123")
+    user_personal_information = UserPersonalInformation("Davi", "Cunha", 20, "M")
+
+    user = User(user_information, user_personal_information)
+    print(user.personal_information)
+
     database = AccountDAO(database_connector)
+
 
 # Rien ne doit être modifié après cette ligne
 # Le code à exécuter doit être écrit dans la fonction main()

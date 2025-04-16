@@ -21,7 +21,7 @@ class User:
         return self.account_information.username == other.account_information.username
 
     def __str__(self):
-        return f"{self.username}"
+        return f"{self.account_information.username}"
 
     def __repr__(self):
-        return f"User(username={self.username})"
+        return f"User(username={self.account_information.username})"
