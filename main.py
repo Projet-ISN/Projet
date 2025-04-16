@@ -3,7 +3,7 @@ import os
 from dotenv import find_dotenv, load_dotenv
 
 from model.database.DatabaseConnector import DatabaseConnector
-from model.database.UserDatabase import UserDatabase
+from model.database.AccountDAO import AccountDAO
 
 # Load environment variables from .env file
 load_dotenv(find_dotenv())
@@ -17,8 +17,7 @@ def main():
         os.environ.get("DATABASE_NAME"),
     )
 
-    database = UserDatabase(database_connector)
-
+    database = AccountDAO(database_connector)
 
 # Rien ne doit être modifié après cette ligne
 # Le code à exécuter doit être écrit dans la fonction main()

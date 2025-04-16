@@ -52,5 +52,3 @@ class DatabaseConnector:
                 self.close_connection(connection)
         else:
             print("Failed to connect to the database. Query not executed.")
-
-        return cursor
