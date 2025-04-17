@@ -1,21 +1,101 @@
 [
     {
-        "question": "Quel est ton animal préféré ?",
+        "question": "Que recherches-tu dans une relation ?",
         "options": [
-            "Chien",
-            "Chat",
-            "Lapin",
-            "Oiseau"
+            "Du serieux",
+            "De l'amitité",
+            "De l'aventure",
+            "Mon âme soeur"
         ]
     },
 
     {
-        "question": "Quelle est ta couleur préférée ?",
+        "question": "Ta soirée idéale ?",
         "options": [
-            "Rouge",
-            "Bleu",
-            "Vert",
-            "Jaune"
+            "K-fet arrosée",
+            "Amerooo",
+            "Netflix & chill",
+            "Seul au monde, chez toi"
+        ]
+    },
+    
+    {
+        "question": "Souhaites-tu des enfants ?",
+        "options": [
+            "0",
+            "1",
+            "2",
+            "11"
+        ]
+    },
+    
+    {
+        "question": "Crois-tu en l'astrologie ?",
+        "options": [
+            "Oui",
+            "Non"
+        ]
+    },
+    
+    {
+        "question": "Quel genre de musiques écoutes-tu ?",
+        "options": [
+            "Classico classique", 
+            "Pop/Rockk", 
+            "Hip-hop/Rap/Reggaeton", 
+            "Boomboom (techno/electro/métal..)"
+            
+        ]
+    },
+    
+    {
+        "question": "Localisation de rêve ?",
+        "options": [
+            "Les States", 
+            "Afrique", 
+            "Austarlie", 
+            "INSA, ça bouge pas"
+        ]
+    },
+    
+    {
+        "question": "Type de film que tu préfères ?",
+        "options": [
+            "Romance", 
+            "Policier", 
+            "Fantastique", 
+            "Humouristique"
+        ]
+    },
+    
+    {
+        "question": "Chat ou chien ?",
+        "options": [
+            "Chat", 
+            "Chien", 
+            "Allergique", 
+            "Je m'en fous"
+        ]
+    },
+    
+    {
+        "question": "Pain au chocolat ou chocolatine ?",
+        "options": [
+            "Pain au chocolat", 
+            "Chocolatine", 
+            "Allergique", 
+            "Croissant"
+        ]
+    },
+    
+    {
+        "question": "Je m'identifie plus à : ",
+        "options": [
+            "Une trottinette", 
+            "Un cheval", 
+            "Un lémurien", 
+            "Rien, t'es bizarre toi"
         ]
     }
 ]
+    
