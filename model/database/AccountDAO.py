@@ -2,13 +2,15 @@ from model.User import User
 from model.UserAccountInformation import UserAccountInformation
 from model.database.DatabaseConnector import DatabaseConnector
 
+TABLE_NAME = "accounts"
+
 
 class AccountDAO:
     def __init__(self, connector: DatabaseConnector):
         self.__connector = connector
 
     def save_account(self, user: User) -> bool:
-        query = "INSERT INTO users (username, password) VALUES (%s, %s) ON DUPLICATE KEY UPDATE password = %s"
+        query = f"INSERT INTO {TABLE_NAME} (username, password) VALUES (%s, %s) ON DUPLICATE KEY UPDATE password = %s"
         params = (user.account_information.username, user.account_information.password)
 
         try:
@@ -20,7 +22,7 @@ class AccountDAO:
         return True
 
     def get_account(self, username: str) -> User:
-        query = "SELECT * FROM users WHERE username = %s"
+        query = f"SELECT * FROM {TABLE_NAME} WHERE username = %s"
         params = (username,)
 
         try:
@@ -39,7 +41,7 @@ class AccountDAO:
         return None
 
     def delete_account(self, username: str) -> bool:
-        query = "DELETE FROM users WHERE username = %s"
+        query = f"DELETE FROM {TABLE_NAME} WHERE username = %s"
         params = (username,)
 
         try:
