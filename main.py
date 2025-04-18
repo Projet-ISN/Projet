@@ -1,31 +1,14 @@
-import os
-
-from dotenv import find_dotenv, load_dotenv
-
 from model.User import User
 from model.UserAccountInformation import UserAccountInformation
 from model.UserPersonalInformation import UserPersonalInformation
-from model.database.DatabaseConnector import DatabaseConnector
-from model.database.AccountDAO import AccountDAO
-
-# Load environment variables from .env file
-load_dotenv(find_dotenv())
+from util.database import database
 
 
 def main():
-    database_connector = DatabaseConnector(
-        os.environ.get("DATABASE_HOST"),
-        os.environ.get("DATABASE_USER"),
-        os.environ.get("DATABASE_PASSWORD"),
-        os.environ.get("DATABASE_NAME"),
-    )
-
     user_information = UserAccountInformation("davipccunha", "password123")
     user_personal_information = UserPersonalInformation("Davi", "Cunha", 20, "M")
 
     user = User(user_information, user_personal_information)
-
-    database = AccountDAO(database_connector)
 
     database.save_account(user)
     retrieved_user = database.get_account(user_information.username)
