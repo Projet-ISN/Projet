@@ -17,9 +17,6 @@ class DatabaseConnector:
                 database=self.database,
             )
 
-            if connection.is_connected():
-                print("Connection established")
-
             return connection
 
         except mysql.Error as err:
@@ -30,8 +27,6 @@ class DatabaseConnector:
         if connection.is_connected():
             connection.close()
 
-            print("Connection closed.")
-
     def execute_query(self, query, params=None):
         connection = self.connect()
         cursor = None
@@ -40,13 +35,17 @@ class DatabaseConnector:
             try:
                 cursor = connection.cursor()
                 cursor.execute(query, params)
-                connection.commit()
+                if not cursor.with_rows:
+                    connection.commit()
+
+                return cursor.fetchall()
 
             except mysql.Error as err:
                 print(f"Error: {err}")
 
             finally:
                 if cursor:
+                    cursor.fetchall()
                     cursor.close()
 
                 self.close_connection(connection)

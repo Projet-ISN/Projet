@@ -11,7 +11,11 @@ class AccountDAO:
 
     def save_account(self, user: User) -> bool:
         query = f"INSERT INTO {TABLE_NAME} (username, password) VALUES (%s, %s) ON DUPLICATE KEY UPDATE password = %s"
-        params = (user.account_information.username, user.account_information.password)
+        params = (
+            user.account_information.username,
+            user.account_information.password,
+            user.account_information.password,
+        )
 
         try:
             self.__connector.execute_query(query, params)
@@ -29,14 +33,14 @@ class AccountDAO:
             result = self.__connector.execute_query(query, params)
             if result:
                 information = UserAccountInformation(
-                    username=result[0],
-                    password=result[1],
+                    username=result[0][0],
+                    password=result[0][1],
                 )
 
                 return User(information)
 
         except Exception as e:
-            print(f"Error retrieving account: {e}")
+            print(f"Error retrieving account: {e})")
 
         return None
 
