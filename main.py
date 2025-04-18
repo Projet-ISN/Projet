@@ -27,10 +27,10 @@ def main():
 
     database = AccountDAO(database_connector)
 
-    # database.save_account(user)
+    database.save_account(user)
     retrieved_user = database.get_account(user_information.username)
-    #print(f"Retrieved user: {retrieved_user.account_information.username}")
-    #print(f"Retrieved password: {retrieved_user.account_information.password}")
+    print(f"Retrieved user: {retrieved_user.account_information.username}")
+    print(f"Retrieved password: {retrieved_user.account_information.password}")
 
     print(database.delete_account(user_information.username))
     print(f"Deleted account for user: {user_information.username}")
