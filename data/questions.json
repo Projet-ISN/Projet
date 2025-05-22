@@ -5,8 +5,10 @@
             "Du serieux",
             "De l'amitité",
             "De l'aventure",
-            "Mon âme soeur"
-        ]
+            "Mon âme soeur" 
+        ],
+        "choix" : "unique"
+        
     },
 
     {
@@ -15,8 +17,10 @@
             "K-fet arrosée",
             "Amerooo",
             "Netflix & chill",
-            "Seul au monde, chez toi"
-        ]
+            "Seul au monde, chez toi" 
+        ],
+        "choix" : "unique"
+        
     },
     
     {
@@ -25,8 +29,10 @@
             "0",
             "1",
             "2",
-            "11"
-        ]
+            "11" 
+        ],
+        "choix" : "unique"
+        
     },
     
     {
@@ -34,18 +40,19 @@
         "options": [
             "Oui",
             "Non"
-        ]
+        ],
+        "choix" : "unique"
     },
     
     {
-        "question": "Quel genre de musiques écoutes-tu ?",
+        "question": "Quel genre(s) de musiques écoutes-tu ?",
         "options": [
             "Classico classique", 
             "Pop/Rockk", 
             "Hip-hop/Rap/Reggaeton", 
-            "Boomboom (techno/electro/métal..)"
-            
-        ]
+            "Boomboom (techno/electro/métal..)" 
+        ],
+        "choix" : "multiple"
     },
     
     {
@@ -55,7 +62,8 @@
             "Afrique", 
             "Austarlie", 
             "INSA, ça bouge pas"
-        ]
+        ],
+        "choix" : "unique"
     },
     
     {
@@ -65,7 +73,8 @@
             "Policier", 
             "Fantastique", 
             "Humouristique"
-        ]
+        ],
+        "choix" : "unique"
     },
     
     {
@@ -75,7 +84,8 @@
             "Chien", 
             "Allergique", 
             "Je m'en fous"
-        ]
+        ],
+        "choix" : "unique"
     },
     
     {
@@ -85,7 +95,8 @@
             "Chocolatine", 
             "Allergique", 
             "Croissant"
-        ]
+        ],
+        "choix" : "unique"
     },
     
     {
@@ -95,7 +106,8 @@
             "Un cheval", 
             "Un lémurien", 
             "Rien, t'es bizarre toi"
-        ]
+        ],
+        "choix" : "unique"
     }
 ]
     

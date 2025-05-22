@@ -8,7 +8,6 @@ This is a temporary script file.
 import tkinter as tk
 from tkinter import *
 
-
 class VueQuestions(tk.Tk) : 
     
     def __init__(self, question) : #question est un dico avec { 'question' : XXX, 'choix' : 'unique'/ 'multiple', 'options':[option1, option2, option3, option4] }
@@ -32,33 +31,30 @@ class VueQuestions(tk.Tk) :
         self.frame.pack(side=tk.TOP)
         
         if self.question['choix'] == 'multiple' : 
-            self.choix1 = tk.BoolVar()
-            self.choix1.set(False)
+            self.choix1 = tk.BoolVar()  #défini sur False par defaut
             self.choix2 = tk.BoolVar()
-            self.choix2.set(False)
             self.choix3 = tk.BoolVar()
-            self.choix3.set(False)
             self.choix4 = tk.BoolVar()
-            self.choix4.set(False)
             self.option1 = tk.Checkbutton(self.frame, text = self.question['option'][0], variable = self.choix1, value = True)
             self.option1.grid(row=1, column=0)
             self.option2 = tk.Checkbutton(self.frame, text = self.question['option'][1], variable = self.choix2, value = True)
-            self.option2.grid(row=1, column=0)
+            self.option2.grid(row=2, column=0)
             self.option3 = tk.Checkbutton(self.frame, text = self.question['option'][2], variable = self.choix3, value = True)
-            self.option3.grid(row=1, column=0)
+            self.option3.grid(row=3, column=0)
             self.option4 = tk.Checkbutton(self.frame, text = self.question['option'][3], variable = self.choix4, value = True)
-            self.option4.grid(row=1, column=0)
+            self.option4.grid(row=4, column=0)
+            
         if question['choix'] == 'unique' : 
-            self.choix = tk.BoolVar()
-            self.choix.set(False)
-            self.option1 = tk.Radiobutton(self.frame, text = self.question['option'][0], variable = self.choix, value = True)
+            self.choix = tk.IntVar()
+            self.choix.set(0)
+            self.option1 = tk.Radiobutton(self.frame, text = self.question['option'][0], variable = self.choix, value = 1)
             self.option1.grid(row=1, column=0)
-            self.option2 = tk.Radiobutton(self.frame, text = self.question['option'][1], variable = self.choix, value = True)
-            self.option2.grid(row=1, column=0)
-            self.option3 = tk.Radiobutton(self.frame, text = self.question['option'][2], variable = self.choix, value = True)
-            self.option3.grid(row=1, column=0)
-            self.option4 = tk.Radiobutton(self.frame, text = self.question['option'][3], variable = self.choix, value = True)
-            self.option4.grid(row=1, column=0)
+            self.option2 = tk.Radiobutton(self.frame, text = self.question['option'][1], variable = self.choix, value = 2)
+            self.option2.grid(row=2, column=0)
+            self.option3 = tk.Radiobutton(self.frame, text = self.question['option'][2], variable = self.choix, value = 3)
+            self.option3.grid(row=3, column=0)
+            self.option4 = tk.Radiobutton(self.frame, text = self.question['option'][3], variable = self.choix, value = 4)
+            self.option4.grid(row=4, column=0)
         
         
         #boutons suivant et précédent
