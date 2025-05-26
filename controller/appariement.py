@@ -1,13 +1,24 @@
 import math
 
 class People:
+    """
+    Represente chaque personne qui repond  le questionaire 
+    
+    """
+
     def __init__(self,vect_perso,vect_attentes,vect_importances):
+        """
+
+        """
         self.vect_perso=vect_perso
         self.vect_attentes=vect_attentes
         self.vect_importances=vect_importances
         self.tolerance(1.5) ### la finesse de l algo plus ce coef est grand plus il va etre stricte sur le diferences (a parametrer)
 
     def ponderation_norme (self,personne2):
+        """
+        Creer les vecteur ponderees des reponse et des attentes et calcul leur normes  
+        """
         self.perso_pond=[]
         self.attente_pond=[]
         self.n_perso=0
@@ -25,13 +36,18 @@ class People:
         print(self.perso_pond ,self.attente_pond ,self.n_perso ,self.n_attentes)
 
     def produit_scal(self,u,v):
+        """
+        Fait le produit scalaire entre deux vexteur 
+        """
         val=0
         for i in range (len(u)):
             val+= u[i]*v[i]
         return(val)
 
     def similarite_cos (self,personne2):
-        
+        """
+        Calcul la similarite cosinus entre les deux personnes 
+        """
         self.ponderation_norme(personne2)
         personne2.ponderation_norme(self)
         simAB= self.produit_scal(self.attente_pond,personne2.perso_pond)/(self.n_attentes*personne2.n_perso)
@@ -40,6 +56,9 @@ class People:
         return comp
 
     def tolerance (self,coef0):
+        """
+        Calcul 
+        """
         self.coef_tolerance=[]
         for i in range (len(self.vect_importances)):
             val= coef0/(self.vect_importances[i]+0.01)
