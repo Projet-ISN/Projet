@@ -6,6 +6,12 @@ TABLE_NAME = "accounts"
 
 
 class AccountDAO:
+    """
+    Cette classe gère les opérations de base de données pour les comptes utilisateurs.
+    Elle permet de sauvegarder, récupérer et supprimer des comptes dans la base de données.
+    Elle sert à simplifier, centraliser et rendre plus lisible les opérations liées aux comptes utilisateurs.
+    """
+
     def __init__(self, connector: DatabaseConnector):
         self.__connector = connector
 
@@ -42,7 +48,7 @@ class AccountDAO:
         except Exception as e:
             print(f"Error retrieving account: {e})")
 
-        return None
+        return None # type: ignore
 
     def delete_account(self, username: str) -> bool:
         query = f"DELETE FROM {TABLE_NAME} WHERE username = %s"

@@ -4,11 +4,15 @@ from model.UserAccountInformation import UserAccountInformation
 
 
 class User:
+    """
+    Classe représentant un utilisateur.
+    Elle contient les informations de connexion, les informations personnelles et les réponses au sondage.
+    """
     def __init__(
         self,
         account_information: UserAccountInformation,
-        personal_information: UserPersonalInformation = None,
-        answers: SurveyAnswers = None,
+        personal_information: UserPersonalInformation = None, # type: ignore
+        answers: SurveyAnswers = None, # type: ignore
     ):
         self.account_information = account_information
         self.personal_information = personal_information

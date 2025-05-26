@@ -1,4 +1,8 @@
 class UserPersonalInformation:
+    """
+    Classe représentant les informations personnelles d'un utilisateur.
+    Elle contient le nom, le prénom, l'âge et le genre de l'utilisateur.
+    """
     def __init__(self, name: str, surname: str, age: int, gender: str):
         self.name = name
         self.surname = surname

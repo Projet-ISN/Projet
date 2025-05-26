@@ -2,6 +2,11 @@ import mysql.connector as mysql
 
 
 class DatabaseConnector:
+    """
+    Cette classe gère la connexion à la base de données MySQL.
+    Elle permet de se connecter à la base de données, et d'exécuter des requêtes SQL.
+    """
+
     def __init__(self, host: str, user: str, password: str, database: str):
         self.host = host
         self.user = user
