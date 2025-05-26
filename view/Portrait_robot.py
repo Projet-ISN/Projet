@@ -8,6 +8,8 @@ Created on Thu May 22 08:12:43 2025
 import tkinter as tk
 from tkinter import ttk
 
+#une partie de ce code a été généré par une IA : Chat GPT
+#cette IA nous a permis de générer les coordonnées souhaitées pour faire les formes des canvas
 
 class FenetreRobot:
     def __init__(self, root):
@@ -103,7 +105,7 @@ class FenetreRobot:
         skin_scale.pack(fill='x', pady=10)
 
         # Bouton Mettre à jour (optionnel)
-        btn = ttk.Button(frame, text="Mettre à jour les changements", command=self.update_canvas)
+        btn = ttk.Button(frame, text="Sauvegarder son portrait robot", command=self.update_canvas)
         btn.pack(pady=10)
 
     def get_skin_color(self):  #commande permettantd'ajuster la couleur de peau, trouvée sur internet
@@ -181,6 +183,6 @@ class FenetreRobot:
 
 if __name__ == "__main__":
     root = tk.Tk()
-    root.geometry("900x500")
+    root.geometry("750x400")
     app = FenetreRobot(root)
     root.mainloop()
