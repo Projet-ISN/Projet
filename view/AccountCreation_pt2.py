@@ -10,11 +10,13 @@ from tkinter import *
 
 class CreationCompte(tk.Tk) : 
     
-    def __init__(self) :
+    def __init__(self, user_controller, window_controller) :
         super().__init__()
         
         self.geometry("750x400")
         self.title("Création de ton compte ...")
+        self.user_controller = user_controller
+        self.window_controller = window_controller
         
         
         self.prenom = tk.Label(self, text = 'Prénom :')
@@ -63,8 +65,3 @@ class CreationCompte(tk.Tk) :
     #def CreerCompte() :
         
         
-        
-        
-    
-app = CreationCompte()
-app.mainloop()

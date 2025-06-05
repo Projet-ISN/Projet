@@ -2,14 +2,16 @@ import tkinter as tk
 
 from model.User import User
 from model.UserAccountInformation import UserAccountInformation
+from view.AccountCreation_pt2 import CreationCompte
 
 class AccountCreationView(tk.Tk):
-    def __init__(self, user_controller):
+    def __init__(self, user_controller, window_controller):
         super().__init__()
         self.geometry("450x300")
         self.title("Création de compte")
         
         self.user_controller = user_controller
+        self.window_controller = window_controller
 
         # Nom d'utilisateur
         self.username_label = tk.Label(self, text="Nom d'utilisateur :")
@@ -29,9 +31,14 @@ class AccountCreationView(tk.Tk):
         self.password_confirm_entry.pack(side=tk.TOP)
 
         # Bouton de création de compte
-        self.create_account_button = tk.Button(self, text="Créer un compte", command=self.create_account)
+        self.create_account_button = tk.Button(self, text="Créer un compte", command=self.manage_button_click)
         self.create_account_button.pack(side=tk.TOP)
 
+    
+    def manage_button_click(self):
+        self.create_account()
+        self.open_avatar_creation()
+    
     
     def create_account(self):
         username = self.username_entry.get()
@@ -48,3 +55,6 @@ class AccountCreationView(tk.Tk):
 
         self.user_controller.create_user(user)
         print(f"Compte créé pour l'utilisateur : {username}")
+        
+    def open_avatar_creation(self):
+        self.window_controller.go_to_window(self, CreationCompte(self.user_controller, self.window_controller))
