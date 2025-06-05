@@ -2,13 +2,24 @@ import math
 
 class People:
     """
-    Represente chaque personne qui repond  le questionaire 
-    
+    Classe qui permet de creer un profil de personne avec ses reponses, attentes et importances
+    Elle permet de calculer la compatibilite entre deux personnes en utilisant deux methodes:
+    -similarite cosinus
+    -score flou
+    Elle permet aussi de calculer la compatibilite totale entre deux personnes en faisant une moyenne ponderee
+    entre les deux methodes de compatibilite.
     """
 
     def __init__(self,vect_perso,vect_attentes,vect_importances):
         """
-
+        Args:
+            -vect_perso (list):vecteur des reponses de la personne
+            -vect_attentes (list):vecteur des attentes de la personne
+            -vect_importances (list):vecteur des importances de chaque question pour la personne
+        Initialisation des vecteurs de reponses, attentes et importances, ainsi que du coefficient de tolerance
+        pour le calcul de la compatibilite floue.
+        Return:
+            None
         """
         self.vect_perso=vect_perso
         self.vect_attentes=vect_attentes
@@ -53,11 +64,11 @@ class People:
 
     def similarite_cos (self,personne2):
         """
-        Calcul de la comptabilite entre de personne en utilisant la methode de similarite cosinus 
+        Calcul de la compatibilite entre de personne en utilisant la methode de similarite cosinus 
         Args:
             -personne2 (People): personne avec laquelle nous allons comparer notre profil
         Return:
-            float:valeur du pourcentage de comptabilite en utilisant la similarite cosinus entre notre profil et personne2 
+            float:valeur du pourcentage de compatibilite en utilisant la similarite cosinus entre notre profil et personne2 
         """
         self.ponderation_norme(personne2)
         personne2.ponderation_norme(self)
@@ -84,7 +95,7 @@ class People:
         Args:
             -personne2 (People): personne avec laquelle nous allons comparer notre profil
         Return:
-           float:valeur du pourcentage de comptabilite en utilisant la methode score floue entre notre profil et personne2
+           float:valeur du pourcentage de compatibilite en utilisant la methode score floue entre notre profil et personne2
         """
         score_1=0
         score_2=0
@@ -100,25 +111,28 @@ class People:
     
     def compatibilite (self,personne2,coeff):
         """
-        Calculde la comptabilite total en faisant une moyenne pondere entre les deux methodes utilise (similarite cos et score floue)
+        Calculde la compatibilite total en faisant une moyenne pondere entre les deux methodes utilise (similarite cos et score floue)
         Args:
             -personne2 (People): personne avec laquelle nous allons comparer notre profil
             -coeff (float): coefficient  de l importance de la methode similarite cosinus face a la methode score flou
         Return:
-            float:pourcentage de la comptabilite total entre notre profil et personne 2
+            float:pourcentage de la compatibilite total entre notre profil et personne 2
         """
         res=coeff*self.similarite_cos(personne2)+ ((1-coeff)*self.score_flou(personne2))
         return res
-##test: 
+    
 
-Martin=People([1,2,5,3,8],[4,5,2,2,6],[4,2,2,6,5])
-Davi=People([8,1,1,4,3],[5,2,5,4,3],[2,5,5,2,3])
-Matias=People([4,5,2,2,6],[1,2,5,3,8],[40,20,20,60,50])
+if __name__ == "__main__":
+    Martin=People([1,2,5,3,8],[4,5,2,2,6],[4,2,2,6,5])
+    Davi=People([8,1,1,4,3],[5,2,5,4,3],[2,5,5,2,3])
+    Matias=People([4,5,2,2,6],[1,2,5,3,8],[40,20,20,60,50])
 
-a=Matias
+    a=Matias
 
-print(Martin.similarite_cos(a))
+    print(Martin.similarite_cos(a))
 
-print(Martin.score_flou(a))
+    print(Martin.score_flou(a))
 
-print(Martin.compatibilite(a,0.5))
+    print(Martin.compatibilite(a,0.5))
+
+    print(Matias.compatibilite(Davi, 0.5))

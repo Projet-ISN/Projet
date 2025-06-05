@@ -108,7 +108,7 @@ class FenetreRobot:
         btn = ttk.Button(frame, text="Sauvegarder son portrait robot", command=self.update_canvas)
         btn.pack(pady=10)
 
-    def get_skin_color(self):  #commande permettantd'ajuster la couleur de peau, trouvée sur internet
+    def get_skin_color(self):  #commande permettant d'ajuster la couleur de peau, trouvée sur internet
         t = self.skin_tone.get() / 100
         r = int((1 - t) * 245 + t * 85)
         g = int((1 - t) * 222 + t * 60)
