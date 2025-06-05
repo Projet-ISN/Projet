@@ -64,14 +64,14 @@ class CreationCompte(tk.Tk):
         self.option3.pack(pady=5)
         
         self.nav_frame = tk.Frame(self, bg="#fbe8ea")
-        self.nav_frame.pack()
+        self.nav_frame.pack() 
         
         # Bouton portrait robot
         self.portrait = tk.Button(self.nav_frame, text="Je crée mon portrait robot →", font=font_button, bg="#e1a4b6", fg="white", relief="flat")
         self.portrait.pack(side="right", padx=100, pady=70)
 
         # Bouton final
-        self.jecree = tk.Button(self.nav_frame, text="← Je créé mon compte", font=font_button, bg="#e1a4b6", fg="white", relief="flat")
+        self.jecree = tk.Button(self.nav_frame, text="← Je ne créé pas mon portrait robot", font=font_button, bg="#e1a4b6", fg="white", relief="flat")
         self.jecree.pack(side="right", padx=100, pady=70)
 
 if __name__ == "__main__":
