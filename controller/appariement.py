@@ -17,7 +17,9 @@ class People:
 
     def ponderation_norme (self,personne2):
         """
-        Creer les vecteur ponderees des reponse et des attentes et calcul leur normes  
+        Creer les vecteur ponderees des reponses et des attentes, et calcul leur normes 
+        Args:
+            -personne2 (People): personne avec laquelle nous allons comparer notre profil
         """
         self.perso_pond=[]
         self.attente_pond=[]
@@ -37,7 +39,12 @@ class People:
 
     def produit_scal(self,u,v):
         """
-        Fait le produit scalaire entre deux vexteur 
+        Fait le produit scalaire entre deux vecteur 
+        Args:
+            u (list):premier vecteur utilise pour le produit scalaire
+            v (list):deuxieme vecteur utilise pour le produit scalaire
+        Return:
+            float:valeur du produit scalaire de u avec v
         """
         val=0
         for i in range (len(u)):
@@ -46,7 +53,11 @@ class People:
 
     def similarite_cos (self,personne2):
         """
-        Calcul la similarite cosinus entre les deux personnes 
+        Calcul de la comptabilite entre de personne en utilisant la methode de similarite cosinus 
+        Args:
+            -personne2 (People): personne avec laquelle nous allons comparer notre profil
+        Return:
+            float:valeur du pourcentage de comptabilite en utilisant la similarite cosinus entre notre profil et personne2 
         """
         self.ponderation_norme(personne2)
         personne2.ponderation_norme(self)
@@ -57,7 +68,10 @@ class People:
 
     def tolerance (self,coef0):
         """
-        Calcul 
+        Calcul du coefficient de tolerence pour chaque question dependant de l importance de chaque personne pour chaque question
+        puis creer une liste avec chaque coef
+        Args:
+            coef0 (float):coefficient inicial qui va determiner la strictesse du calcul du score flou
         """
         self.coef_tolerance=[]
         for i in range (len(self.vect_importances)):
@@ -65,6 +79,13 @@ class People:
             self.coef_tolerance.append(val)
 
     def score_flou (self,personne2):
+        """
+        Calcul de la compatibilite entre deux personne en utilisant la methode de score floue
+        Args:
+            -personne2 (People): personne avec laquelle nous allons comparer notre profil
+        Return:
+           float:valeur du pourcentage de comptabilite en utilisant la methode score floue entre notre profil et personne2
+        """
         score_1=0
         score_2=0
 
@@ -78,6 +99,14 @@ class People:
         return(compat*100)
     
     def compatibilite (self,personne2,coeff):
+        """
+        Calculde la comptabilite total en faisant une moyenne pondere entre les deux methodes utilise (similarite cos et score floue)
+        Args:
+            -personne2 (People): personne avec laquelle nous allons comparer notre profil
+            -coeff (float): coefficient  de l importance de la methode similarite cosinus face a la methode score flou
+        Return:
+            float:pourcentage de la comptabilite total entre notre profil et personne 2
+        """
         res=coeff*self.similarite_cos(personne2)+ ((1-coeff)*self.score_flou(personne2))
         return res
 ##test: 
