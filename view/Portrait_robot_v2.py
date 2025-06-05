@@ -26,11 +26,11 @@ class FenetreRobot:
         style.configure("TRadiobutton", background="#fbe8ea", font=("Helvetica", 20), foreground="#4b2e2e")
         style.configure("TButton", background="#e1a4b6", foreground="white", font=("Helvetica", 20))
 
-        # Canvas plus grand (2,5x)
+        # Canvas
         self.canvas = tk.Canvas(root, width=1000, height=1000, bg='#fbe8ea', highlightthickness=0)
         self.canvas.grid(row=0, column=1, padx=40, pady=40, sticky='n')
 
-        # Notebook
+        # Notebook avec différents onglets
         self.notebook = ttk.Notebook(root)
         self.notebook.grid(row=0, column=0, sticky='nsew', padx=40, pady=40)
 
@@ -52,13 +52,21 @@ class FenetreRobot:
         self.hair_color = tk.StringVar(value="#FAEBA7")
         self.skin_tone = tk.IntVar(value=30)
 
-        self.create_controls()
+        self.creation_portrait()
         self.update_canvas()
 
         root.grid_rowconfigure(0, weight=1)
         root.grid_columnconfigure(0, weight=1)
 
-    def create_controls(self):
+    def creation_portrait(self):
+        ''' 
+        fonction qui définit différentes options à cocher (radiobutton) pour chaque caractériqtique du potrait
+
+        Returns
+        -------
+        None.
+
+        '''
         # Cheveux
         frame = self.frames["cheveux"]
         ttk.Label(frame, text="Style des cheveux :").pack(anchor="w")
@@ -116,7 +124,17 @@ class FenetreRobot:
         btn = ttk.Button(frame, text="Sauvegarder son portrait robot", command=self.update_canvas)
         btn.pack(pady=10)
 
-    def get_skin_color(self):
+    def couleur_peau(self):
+        '''
+        fonction qui permet d'ajuster la couleur de peau avec d'une scale
+        fonction générée à l'aide d'IA (chat gpt)
+
+        Returns
+        -------
+        str
+            le nom de la couleur avec les paramètres rgb (red,green,blue)
+
+        '''
         t = self.skin_tone.get() / 100
         r = int((1 - t) * 245 + t * 85)
         g = int((1 - t) * 222 + t * 60)
@@ -124,12 +142,20 @@ class FenetreRobot:
         return f'#{r:02x}{g:02x}{b:02x}'
 
     def update_canvas(self):
+        '''
+        fonction qui met à jour le canva selon quel bouton est cliqué (quelles caractériqtiques)
+        une partie de cette fonction a été générée par IA
+
+        Returns
+        -------
+        None.
+
+        '''
         self.canvas.delete("all")
 
-        skin_color = self.get_skin_color()
+        skin_color = self.couleur_peau()
         hair_color = self.hair_color.get()
 
-        scale = 2.5  # facteur d’agrandissement
         center_x, center_y = 500, 500
 
         # Tête

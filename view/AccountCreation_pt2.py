@@ -58,6 +58,7 @@ class CreationCompte(tk.Tk) :
         self.jecree = tk.Button(self, text = 'Je crée mon compte')
         self.jecree.pack(side=tk.RIGHT, padx = 60)
 
+        self.bind("<Escape>", lambda e: self.attributes("-fullscreen", False))
 
     #def CreerCompte() :
         
