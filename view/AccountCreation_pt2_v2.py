@@ -33,7 +33,7 @@ class CreationCompte(tk.Tk):
         self.frame_gen.pack(pady = 40)
         
         self.prenom = tk.Label(self.frame_gen, text="Donne nous tes petites informations !", font=("Helvetica", 24, "bold"), bg="#fbe8ea")
-        self.prenom.pack(pady=80)
+        self.prenom.pack(pady=40)
         # Prénom
         self.prenom = tk.Label(self.frame_gen, text="Prénom :", font=font_label, bg="#fbe8ea")
         self.prenom.pack(pady=5)
@@ -44,7 +44,7 @@ class CreationCompte(tk.Tk):
         self.nom = tk.Label(self.frame_gen, text="Nom :", font=font_label, bg="#fbe8ea")
         self.nom.pack(pady=5)
         self.entry2 = tk.Entry(self.frame_gen, font=font_entry, justify='center')
-        self.entry2.pack(pady=20)
+        self.entry2.pack(pady=10)
 
         # Âge
         self.age_value = tk.IntVar(value=18)
@@ -52,7 +52,7 @@ class CreationCompte(tk.Tk):
         self.text1.pack(pady=10)
         self.scale = tk.Scale(self.frame_gen, from_=18, to=99, variable = self.age_value, orient=tk.HORIZONTAL, font=("Helvetica", 16),
                               bg="#fbe8ea", length=400)
-        self.scale.pack(pady=20)
+        self.scale.pack(pady=10)
         
         # Genre
         self.text2 = tk.Label(self.frame_gen, text="Genre :", font=font_label, bg="#fbe8ea")
@@ -70,26 +70,26 @@ class CreationCompte(tk.Tk):
         self.option3.pack(pady=5)
         
         self.nav_frame = tk.Frame(self, bg="#fbe8ea")
-        self.nav_frame.pack() 
+        self.nav_frame.pack(pady=50) 
         
         # Bouton portrait robot
         self.portrait = tk.Button(self.nav_frame, text="Je crée mon portrait robot →", font=font_button, bg="#e1a4b6", fg="white", relief="flat", command=self.manage_button_click)
-        self.portrait.pack(side="right", padx=100, pady=70)
+        self.portrait.pack(side=tk.RIGHT, padx=100)
 
         # Bouton final
         self.jecree = tk.Button(self.nav_frame, text="← Je ne créé pas mon portrait robot", font=font_button, bg="#e1a4b6", fg="white", relief="flat")
-        self.jecree.pack(side="right", padx=100, pady=70)
+        self.jecree.pack(side=tk.LEFT, padx=100)
         
-        
+            
+        def open_avatar_creation(self) :
+            root = tk.Tk()
+            self.window_controller.go_to_window(self,FenetreRobot(root))
+            
         def manage_button_click(self):
             self.open_avatar_creation()
             self.enregistrer_data()
             
-        def open_avatar_creation(self,event) :
-            root = tk.Tk()
-            self.window_controller.go_to_window(self,FenetreRobot(root))
-            
-        def enregistrer_data(self,event):
+        def enregistrer_data(self):
             user_data = {  
                 "username" : self.username,
                 "prenom" : self.entry1.get(),

@@ -32,7 +32,7 @@ class VuePrincipale(tk.Tk):
         tk.Label(main_frame, text="Bienvenue à toi jeune célibataire !", font=("Helvetica", 24, "bold"), bg="#fbe8ea").pack(pady=100)
 
         # Champ Username
-        tk.Label(main_frame, text="Username :", font=font_label, bg="#fbe8ea").pack(pady=70)
+        tk.Label(main_frame, text="Nom d'utilisateur :", font=font_label, bg="#fbe8ea").pack(pady=10)
         self.user_entry = tk.Entry(main_frame, font=font_entry)
         self.user_entry.pack(pady=5)
 
