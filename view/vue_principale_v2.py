@@ -47,13 +47,13 @@ class VuePrincipale(tk.Tk):
 
         # Frame pour les deux petits boutons
         bottom_frame = tk.Frame(main_frame, bg="#fbe8ea")
-        bottom_frame.pack(pady=70)
+        bottom_frame.pack(pady=20)
 
         self.password_perdu = tk.Button(bottom_frame, text="← Mot de passe oublié ?", font=font_button, bg="#e1a4b6", fg="white", relief="flat")
         self.password_perdu.pack(side=tk.LEFT, padx=100, pady=70)
 
         self.new_user = tk.Button(bottom_frame, text="Créer un nouveau compte →", font=font_button, bg="#e1a4b6", fg="white", relief="flat")
-        self.new_user.pack(side=tk.RIGHT, padx=100, pady=20)
+        self.new_user.pack(side=tk.RIGHT, padx=100, pady=70)
 
         # Liens  
         self.password_perdu.bind('<Button-1>', self.mot_de_passe_perdu)
