@@ -53,7 +53,7 @@ class VuePrincipale(tk.Tk):
         self.password_perdu.pack(side=tk.LEFT, padx=100, pady=70)
 
         self.new_user = tk.Button(bottom_frame, text="Créer un nouveau compte →", font=font_button, bg="#e1a4b6", fg="white", relief="flat")
-        self.new_user.pack(side=tk.RIGHT, padx=100, pady=70)
+        self.new_user.pack(side=tk.RIGHT, padx=100, pady=20)
 
         # Liens  
         self.password_perdu.bind('<Button-1>', self.mot_de_passe_perdu)
