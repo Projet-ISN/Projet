@@ -7,7 +7,7 @@ Created on Sat Jun  7 15:38:06 2025
 
 import tkinter as tk
 from tkinter import messagebox
-from view.AccountCreationView import AccountCreationView
+from view.AccountCreationView_v2 import AccountCreationView
 
 class VuePrincipale(tk.Tk):
     def __init__(self, user_controller, window_controller):

@@ -2,7 +2,7 @@ from model.User import User
 from model.UserAccountInformation import UserAccountInformation
 from model.UserPersonalInformation import UserPersonalInformation
 from util.database import database
-from view.vue_principale import VuePrincipale
+from view.vue_principale_v2 import VuePrincipale
 from controller.UserController import UserController
 from controller.WindowsController import WindowsController
 
