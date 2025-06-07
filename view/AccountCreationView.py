@@ -37,7 +37,7 @@ class AccountCreationView(tk.Tk):
     
     def manage_button_click(self):
         self.create_account()
-        self.open_avatar_creation()
+        self.open_user_pt2_creation(self.username_entry.get())
     
     
     def create_account(self):
@@ -56,5 +56,5 @@ class AccountCreationView(tk.Tk):
         self.user_controller.create_user(user)
         print(f"Compte créé pour l'utilisateur : {username}")
         
-    def open_avatar_creation(self):
-        self.window_controller.go_to_window(self, CreationCompte(self.user_controller, self.window_controller))
+    def open_user_pt2_creation(self, username):
+        self.window_controller.go_to_window(self, CreationCompte(self.user_controller, self.window_controller, username))

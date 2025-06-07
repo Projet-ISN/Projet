@@ -212,7 +212,7 @@ class FenetreRobot:
         elif style_bouche == "Triste":
             self.canvas.create_arc(center_x - 100, center_y + 110, center_x + 100, center_y + 170, start=0, extent=180, style=tk.ARC, outline="black", width=6)
 
-if __name__ == "__main__":
-    root = tk.Tk()
-    app = FenetreRobot(root)
-    root.mainloop()
+#if __name__ == "__main__":
+    #root = tk.Tk()
+    #app = FenetreRobot(root)
+    #root.mainloop()
