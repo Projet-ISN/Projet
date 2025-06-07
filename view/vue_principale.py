@@ -2,6 +2,7 @@ import tkinter as tk
 from tkinter import messagebox
 from view.AccountCreationView import AccountCreationView
 
+
 class VuePrincipale(tk.Tk):
     def __init__(self, user_controller, window_controller):
         super().__init__()

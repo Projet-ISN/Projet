@@ -28,11 +28,11 @@ class AccountCreationView(tk.Tk):
         self.password_confirm_label = tk.Label(self, text="Confirmer le mot de passe :")
         self.password_confirm_label.pack(side=tk.TOP)
         self.password_confirm_entry = tk.Entry(self, show='*')
-        self.password_confirm_entry.pack(side=tk.TOP)
+        self.password_confirm_entry.pack(side=tk.TOP, pady = 10)
 
         # Bouton de création de compte
         self.create_account_button = tk.Button(self, text="Créer un compte", command=self.manage_button_click)
-        self.create_account_button.pack(side=tk.TOP)
+        self.create_account_button.pack(side=tk.TOP, pady = 50)
 
     
     def manage_button_click(self):
