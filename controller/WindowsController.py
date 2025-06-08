@@ -4,4 +4,4 @@ class WindowsController:
 
     def go_to_window(self, source, destination):
         source.destroy()
-        destination.mainloop()
+        destination.focus_force()
