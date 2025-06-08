@@ -98,6 +98,10 @@ class AccountCreationView(tk.Toplevel):
         password = self.password_entry.get()
         password_confirm = self.password_confirm_entry.get()
 
+        if not username or not password or not password_confirm:
+            messagebox.showerror("Erreur", "Tous les champs doivent être remplis.")
+            return False
+
         if password != password_confirm:
             messagebox.showerror("Erreur", "Les mots de passe ne correspondent pas.")
             return False

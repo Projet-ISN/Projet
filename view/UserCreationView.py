@@ -160,6 +160,10 @@ class UserCreationView(tk.Toplevel):
         print("Données enregistrées pour :", self.username)
 
     def manage_button_click(self):
+        if not self.entry1.get() or not self.entry2.get():
+            tk.messagebox.showerror("Erreur", "Tous les champs doivent être remplis.")
+            return
+        
         self.enregistrer_data()
         self.open_avatar_creation()
 
