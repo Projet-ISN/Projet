@@ -6,7 +6,7 @@ Created on Thu Jun  5 08:34:12 2025
 """
 
 import tkinter as tk
-from controller.UserInformationController import UserInformationController
+from controller.UserController import UserController
 from controller.WindowController import WindowController
 from model.UserPersonalInformation import UserPersonalInformation
 from view.AvatarCreationView import AvatarCreationView
@@ -16,7 +16,7 @@ from view.QuestionsView import QuestionsView
 class UserCreationView(tk.Toplevel):
     def __init__(
         self,
-        user_controller: UserInformationController,
+        user_controller: UserController,
         window_controller: WindowController,
         username,
     ):
@@ -148,7 +148,9 @@ class UserCreationView(tk.Toplevel):
         self.jecree.pack(side=tk.LEFT, padx=100)
 
     def open_avatar_creation(self):
-        self.window_controller.go_to_window(self, AvatarCreationView(self.window_controller, self.username))
+        self.window_controller.go_to_window(
+            self, AvatarCreationView(self.user_controller, self.window_controller, self.username)
+        )
 
     def enregistrer_data(self):
         name = self.entry1.get()
@@ -157,7 +159,7 @@ class UserCreationView(tk.Toplevel):
         genre = self.choix.get()
 
         user_information = UserPersonalInformation(name, surname, age, genre)
-        self.user_controller.create_user_information(self.username, user_information)
+        self.user_controller.create_user(self.username, user_information)
 
         print("Données enregistrées pour :", self.username)
 
@@ -165,15 +167,15 @@ class UserCreationView(tk.Toplevel):
         if not self.entry1.get() or not self.entry2.get():
             tk.messagebox.showerror("Erreur", "Tous les champs doivent être remplis.")
             return
-        
+
         self.enregistrer_data()
-        self.window_controller.go_to_window(self, QuestionsView(self.username, 1))
+        self.window_controller.go_to_window(self, QuestionsView(self.user_controller, self.username))
 
     def go_to_avatar_creation(self):
         if not self.entry1.get() or not self.entry2.get():
             tk.messagebox.showerror("Erreur", "Tous les champs doivent être remplis.")
             return
-        
+
         self.enregistrer_data()
         self.open_avatar_creation()
 

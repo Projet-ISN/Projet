@@ -1,6 +1,5 @@
 [
     {
-        "index": 1,
         "question": "Que recherches-tu dans une relation ?",
         "options": [
             "Du serieux",
@@ -11,7 +10,6 @@
         "choix" : "unique"
     },
     {
-        "index": 2,
         "question": "Ta soirée idéale ?",
         "options": [
             "K-fet arrosée",
@@ -22,7 +20,6 @@
         "choix" : "unique"
     },
     {
-        "index": 3,
         "question": "Souhaites-tu des enfants ?",
         "options": [
             "0",
@@ -33,7 +30,6 @@
         "choix" : "unique"
     },
     {
-        "index": 4,
         "question": "Crois-tu en l'astrologie ?",
         "options": [
             "Oui",
@@ -42,7 +38,6 @@
         "choix" : "unique"
     },
     {
-        "index": 5,
         "question": "Quel genre(s) de musiques écoutes-tu ?",
         "options": [
             "Classico classique", 
@@ -53,7 +48,6 @@
         "choix" : "multiple"
     },
     {
-        "index": 6,
         "question": "Localisation de rêve ?",
         "options": [
             "Les States", 
@@ -64,7 +58,6 @@
         "choix" : "unique"
     },
     {
-        "index": 7,
         "question": "Type de film que tu préfères ?",
         "options": [
             "Romance", 
@@ -75,7 +68,6 @@
         "choix" : "unique"
     },
     {
-        "index": 8,
         "question": "Chat ou chien ?",
         "options": [
             "Chat", 
@@ -86,7 +78,6 @@
         "choix" : "unique"
     },
     {
-        "index": 9,
         "question": "Pain au chocolat ou chocolatine ?",
         "options": [
             "Pain au chocolat", 
@@ -97,7 +88,6 @@
         "choix" : "unique"
     },
     {
-        "index": 10,
         "question": "Je m'identifie plus à : ",
         "options": [
             "Une trottinette", 

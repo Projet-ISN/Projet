@@ -8,12 +8,9 @@ Created on Sat Jun  7 15:59:54 2025
 import tkinter as tk
 from tkinter import messagebox
 
-# from view.AccountCreationView import AccountCreationView
-
 from controller.AccountController import AccountController
-from controller.UserInformationController import UserInformationController
+from controller.UserController import UserController
 from controller.WindowController import WindowController
-from model.User import User
 from model.UserAccountInformation import UserAccountInformation
 from view.UserCreationView import UserCreationView
 
@@ -22,7 +19,7 @@ class AccountCreationView(tk.Toplevel):
     def __init__(
         self,
         account_controller: AccountController,
-        user_controller: UserInformationController,
+        user_controller: UserController,
         window_controller: WindowController,
     ):
         super().__init__()
@@ -105,9 +102,11 @@ class AccountCreationView(tk.Toplevel):
         if password != password_confirm:
             messagebox.showerror("Erreur", "Les mots de passe ne correspondent pas.")
             return False
-        
+
         if self.account_controller.account_exists(username):
-            messagebox.showerror("Erreur", "Un compte avec ce nom d'utilisateur existe déjà.")
+            messagebox.showerror(
+                "Erreur", "Un compte avec ce nom d'utilisateur existe déjà."
+            )
             return False
 
         account_information = UserAccountInformation(username, password)

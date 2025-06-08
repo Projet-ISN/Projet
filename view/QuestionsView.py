@@ -6,6 +6,8 @@ Created on Wed Jun  4 20:04:26 2025
 """
 import tkinter as tk
 from tkinter import *
+from controller.UserController import UserController
+from model.SurveyAnswers import SurveyAnswers
 from util.json_utils import load_questions
 
 QUESTIONS_PATH = "data/questions.json"
@@ -14,7 +16,13 @@ questions = load_questions(QUESTIONS_PATH)
 
 
 class QuestionsView(tk.Toplevel):
-    def __init__(self, username, question_index):
+    def __init__(
+        self,
+        user_controller: UserController,
+        username,
+        question_index = 0,
+        answers: dict = {},
+    ):
         super().__init__()
 
         self.title("Pour en apprendre plus sur vous")
@@ -22,8 +30,10 @@ class QuestionsView(tk.Toplevel):
         self.configure(bg="#fbe8ea")  # couleur de fond
         self.bind("<Escape>", lambda e: self.attributes("-fullscreen", False))
 
+        self.user_controller = user_controller
         self.username = username
         self.index = question_index
+        self.answers = answers
         self.question = questions[question_index]
 
         # affichage de la question
@@ -41,7 +51,6 @@ class QuestionsView(tk.Toplevel):
         self.middle = tk.Frame(self, bg="#fbe8ea")
         self.middle.pack(pady=30)
 
-        # la personne peut entrer une valeur sur une échelle de 1 à 10 pour dire à quel point cette question est importante selon elle
         self.importance = tk.Label(
             self.middle,
             text="Importance de cette question selon vous :",
@@ -151,30 +160,33 @@ class QuestionsView(tk.Toplevel):
                 selectcolor="#ffe6ec",
             )
             self.rb2.pack(pady=10)
-            self.rb3 = tk.Radiobutton(
-                self.frame,
-                text=self.question["options"][2],
-                variable=self.choix,
-                value=3,
-                bg="#fbe8ea",
-                fg="#4b2e2e",
-                font=("Helvetica", 18),
-                activebackground="#fbe8ea",
-                selectcolor="#ffe6ec",
-            )
-            self.rb3.pack(pady=10)
-            self.rb4 = tk.Radiobutton(
-                self.frame,
-                text=self.question["options"][3],
-                variable=self.choix,
-                value=4,
-                bg="#fbe8ea",
-                fg="#4b2e2e",
-                font=("Helvetica", 18),
-                activebackground="#fbe8ea",
-                selectcolor="#ffe6ec",
-            )
-            self.rb4.pack(pady=10)
+            if len(self.question["options"]) > 2:
+                self.rb3 = tk.Radiobutton(
+                    self.frame,
+                    text=self.question["options"][2],
+                    variable=self.choix,
+                    value=3,
+                    bg="#fbe8ea",
+                    fg="#4b2e2e",
+                    font=("Helvetica", 18),
+                    activebackground="#fbe8ea",
+                    selectcolor="#ffe6ec",
+                )
+                self.rb3.pack(pady=10)
+
+            if len(self.question["options"]) > 3:
+                self.rb4 = tk.Radiobutton(
+                    self.frame,
+                    text=self.question["options"][3],
+                    variable=self.choix,
+                    value=4,
+                    bg="#fbe8ea",
+                    fg="#4b2e2e",
+                    font=("Helvetica", 18),
+                    activebackground="#fbe8ea",
+                    selectcolor="#ffe6ec",
+                )
+                self.rb4.pack(pady=10)
 
         self.nav_frame = tk.Frame(self, bg="#fbe8ea")
         self.nav_frame.pack(pady=120)
@@ -209,13 +221,34 @@ class QuestionsView(tk.Toplevel):
     def go_to_previous_question(self):
         if self.index > 0:
             self.index -= 1
-            QuestionsView(self.username, self.index)
+            QuestionsView(self.user_controller, self.username, self.index)
             self.destroy()
 
     def go_to_next_question(self):
+        
+
+        if self.question["choix"] == "unique":
+            self.answers[self.index] = self.choix.get()
+
+        if self.question["choix"] == "multiple":
+            self.answers[self.index] = [
+                self.choix1.get(),
+                self.choix2.get(),
+                self.choix3.get(),
+                self.choix4.get(),
+            ]
+
         if self.index < len(questions) - 1:
             self.index += 1
-            QuestionsView(self.username, self.index)
+            QuestionsView(self.user_controller, self.username, self.index)
             self.destroy()
         elif self.index == len(questions) - 1:
-            print("Fin des questions")
+            self.finish_survey()
+
+    def finish_survey(self):
+        survey_answers = SurveyAnswers(self.username, self.answers)
+        self.user_controller.add_users_survey_answers(survey_answers)
+
+        # TODO: Send user to main view
+
+        print(f"Réponses enregistrées pour {self.username}")

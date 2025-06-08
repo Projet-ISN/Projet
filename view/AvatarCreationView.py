@@ -5,7 +5,7 @@ from view.QuestionsView import QuestionsView
 
 
 class AvatarCreationView(tk.Toplevel):
-    def __init__(self, window_controller, username: str):
+    def __init__(self, user_controller, window_controller, username: str):
         super().__init__()
 
         self.title("Portrait Robot")
@@ -13,6 +13,7 @@ class AvatarCreationView(tk.Toplevel):
         self.configure(bg="#fbe8ea")
         self.bind("<Escape>", lambda e: self.attributes("-fullscreen", False))
 
+        self.user_controller = user_controller
         self.window_controller = window_controller
         self.username = username
 
@@ -429,7 +430,7 @@ class AvatarCreationView(tk.Toplevel):
 
     def go_to_questions(self):
         # TODO: Implement the logic to save the avatar creation data
-        self.window_controller.go_to_window(self, QuestionsView(self.username, 1))
+        self.window_controller.go_to_window(self, QuestionsView(self.user_controller, self.username))
 
 
 if __name__ == "__main__":
