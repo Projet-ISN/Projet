@@ -42,7 +42,7 @@ class AccountDAO:
                     password=result[0][1],
                 )
 
-                return UserAccountInformation(information)
+                return UserAccountInformation(information.username, information.password)
 
         except Exception as e:
             print(f"Error retrieving account: {e})")

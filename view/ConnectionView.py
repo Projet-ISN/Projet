@@ -60,7 +60,9 @@ class ConnectionView(tk.Tk):
             bg="#e1a4b6",
             fg="white",
             relief="flat",
+            command=self.login
         )
+
         self.validate_button.pack(pady=20)  # pady modifie
 
         # Frame pour les deux petits boutons
@@ -99,7 +101,23 @@ class ConnectionView(tk.Tk):
         )
         self.window_controller.go_to_window(self, account_creation_view)
 
+    def login(self):
+        username = self.user_entry.get()
+        password = self.password_entry.get()
 
-# if __name__ == "__main__" :
-#     app = VuePrincipale()
-#     app.mainloop()
+        if not username or not password:
+            messagebox.showerror("Erreur", "Veuillez remplir tous les champs.")
+            return
+
+        user_account = self.account_controller.get_account(username)
+
+        if user_account is None:
+            messagebox.showerror("Erreur", "Nom d'utilisateur ou mot de passe incorrect.")
+            return
+
+        if not self.account_controller.verify_password(username, password):
+            messagebox.showerror("Erreur", "Nom d'utilisateur ou mot de passe incorrect.")
+            return
+
+        # Si la connexion est réussie, on peut ouvrir la fenêtre principale
+        print(f"Connexion réussie pour l'utilisateur : {username}")

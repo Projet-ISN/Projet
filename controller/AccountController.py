@@ -33,3 +33,11 @@ class AccountController:
             return False
         else:
             return True
+        
+    def verify_password(self, username: str, password: str):
+        account = database.get_account(username)
+        if account is None:
+            return False
+        
+        # Check if the provided password matches the stored hashed password
+        return bcrypt.checkpw(password.encode('utf-8'), account.password.encode('utf-8'))
