@@ -7,18 +7,20 @@ Created on Sat Jun  7 15:59:54 2025
 
 import tkinter as tk
 from tkinter import messagebox
+
 # from view.AccountCreationView import AccountCreationView
 
 from model.User import User
 from model.UserAccountInformation import UserAccountInformation
 from view.AccountCreation_pt2_v2 import CreationCompte
 
+
 class AccountCreationView(tk.Tk):
-    def __init__(self,user_controller,window_controller):
+    def __init__(self, user_controller, window_controller):
         super().__init__()
         self.title("Création de compte")
         self.configure(bg="#fbe8ea")
-        self.attributes('-fullscreen', True)
+        self.attributes("-fullscreen", True)
         self.bind("<Escape>", lambda e: self.attributes("-fullscreen", False))
 
         self.user_controller = user_controller
@@ -32,21 +34,35 @@ class AccountCreationView(tk.Tk):
         main_frame = tk.Frame(self, bg="#fbe8ea")
         main_frame.pack(expand=True, pady=10)
 
-        tk.Label(main_frame, text="Création de ton compte", font=("Helvetica", 24, "bold"), bg="#fbe8ea").pack(pady=100)
+        tk.Label(
+            main_frame,
+            text="Création de ton compte",
+            font=("Helvetica", 24, "bold"),
+            bg="#fbe8ea",
+        ).pack(pady=100)
 
         # Nom d'utilisateur
-        tk.Label(main_frame, text="Nom d'utilisateur :", font=font_label, bg="#fbe8ea").pack(pady=10)
+        tk.Label(
+            main_frame, text="Nom d'utilisateur :", font=font_label, bg="#fbe8ea"
+        ).pack(pady=10)
         self.username_entry = tk.Entry(main_frame, font=font_entry)
         self.username_entry.pack(pady=5)
 
         # Mot de passe
-        tk.Label(main_frame, text="Mot de passe :", font=font_label, bg="#fbe8ea").pack(pady=10)
-        self.password_entry = tk.Entry(main_frame, font=font_entry, show='*')
+        tk.Label(main_frame, text="Mot de passe :", font=font_label, bg="#fbe8ea").pack(
+            pady=10
+        )
+        self.password_entry = tk.Entry(main_frame, font=font_entry, show="*")
         self.password_entry.pack(pady=5)
 
         # Confirmation mot de passe
-        tk.Label(main_frame, text="Confirmer le mot de passe :", font=font_label, bg="#fbe8ea").pack(pady=10)
-        self.password_confirm_entry = tk.Entry(main_frame, font=font_entry, show='*')
+        tk.Label(
+            main_frame,
+            text="Confirmer le mot de passe :",
+            font=font_label,
+            bg="#fbe8ea",
+        ).pack(pady=10)
+        self.password_confirm_entry = tk.Entry(main_frame, font=font_entry, show="*")
         self.password_confirm_entry.pack(pady=10)
 
         # Bouton de création
@@ -57,12 +73,15 @@ class AccountCreationView(tk.Tk):
             bg="#e1a4b6",
             fg="white",
             relief="flat",
-            command=self.manage_button_click
+            command=self.manage_button_click,
         )
-        self.create_account_button.pack(pady=60) #pady  modifie
+        self.create_account_button.pack(pady=60)
 
     def manage_button_click(self):
-        self.create_account()
+        success = self.create_account()
+        if not success:
+            return
+
         self.open_user_pt2_creation(self.username_entry.get())
 
     def create_account(self):
@@ -72,7 +91,7 @@ class AccountCreationView(tk.Tk):
 
         if password != password_confirm:
             messagebox.showerror("Erreur", "Les mots de passe ne correspondent pas.")
-            return
+            return False
 
         user_information = UserAccountInformation(username, password)
         user = User(user_information)
@@ -80,8 +99,13 @@ class AccountCreationView(tk.Tk):
         self.user_controller.create_user(user)
         print(f"Compte créé pour l'utilisateur : {username}")
 
+        return True
+
     def open_user_pt2_creation(self, username):
-        self.window_controller.go_to_window(self, CreationCompte(self.user_controller, self.window_controller, username))
+        self.window_controller.go_to_window(
+            self, CreationCompte(self.user_controller, self.window_controller, username)
+        )
+
 
 # if __name__ == "__main__":
 #     app = AccountCreationView()
