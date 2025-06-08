@@ -1,3 +1,5 @@
+import bcrypt
+
 from model.UserAccountInformation import UserAccountInformation
 from util.database import database
 
@@ -8,6 +10,12 @@ class AccountController:
         pass
 
     def create_account(self, user_account_information: UserAccountInformation):
+        # Salt and hash the password before saving it
+        hashed_password = bcrypt.hashpw(
+            user_account_information.password.encode('utf-8'), bcrypt.gensalt()
+        )
+        user_account_information.password = hashed_password.decode('utf-8')
+
         return database.save_account(user_account_information)
 
     def get_account(self, username: str):
