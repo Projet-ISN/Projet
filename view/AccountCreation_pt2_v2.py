@@ -10,8 +10,35 @@ from tkinter import *
 from view.Portrait_robot_v2 import FenetreRobot
 import json
 import os
+from view.fenetre_questions_v2 import VueQuestions
 
 class CreationCompte(tk.Tk):
+    
+    def open_avatar_creation(self) :
+        root = tk.Tk()
+        self.window_controller.go_to_window(self,FenetreRobot(root))
+        
+    def enregistrer_data(self):
+        user_data = {  
+            "username" : self.username,
+            "prenom" : self.entry1.get(),
+            "nom" : self.entry2.get(),
+            "age" : self.age_value.get(),
+            "genre" : self.choix.get()}
+        dossier = "~/data" #A modifier en fonction du chemin du dossier
+        os.makedirs(dossier, exist_ok=True)
+
+        chemin_fichier = os.path.join(dossier, self.username+".json")  
+        
+        with open(chemin_fichier, "w") as fichier:
+            json.dump(user_data, fichier, indent=4)
+        
+        print("Data enregistrée")
+    
+    def manage_button_click(self,event):
+        self.open_avatar_creation()
+        self.enregistrer_data()
+    
     def __init__(self, user_controller, window_controller, username):
         super().__init__()
 
@@ -70,41 +97,22 @@ class CreationCompte(tk.Tk):
         self.option3.pack(pady=5)
         
         self.nav_frame = tk.Frame(self, bg="#fbe8ea")
-        self.nav_frame.pack(pady=50) 
+        self.nav_frame.pack(pady=20) 
         
         # Bouton portrait robot
-        self.portrait = tk.Button(self.nav_frame, text="Je crée mon portrait robot →", font=font_button, bg="#e1a4b6", fg="white", relief="flat", command=self.manage_button_click)
+        self.portrait = tk.Button(self.nav_frame, text="Je crée mon portrait robot →", font=font_button, bg="#e1a4b6", fg="white", relief="flat")
         self.portrait.pack(side=tk.RIGHT, padx=100)
+        self.portrait.bind('<Button-1>', self.manage_button_click)
 
         # Bouton final
         self.jecree = tk.Button(self.nav_frame, text="← Je ne créé pas mon portrait robot", font=font_button, bg="#e1a4b6", fg="white", relief="flat")
         self.jecree.pack(side=tk.LEFT, padx=100)
         
-            
-        def open_avatar_creation(self) :
-            root = tk.Tk()
-            self.window_controller.go_to_window(self,FenetreRobot(root))
-            
-        def manage_button_click(self):
-            self.open_avatar_creation()
-            self.enregistrer_data()
-            
-        def enregistrer_data(self):
-            user_data = {  
-                "username" : self.username,
-                "prenom" : self.entry1.get(),
-                "nom" : self.entry2.get(),
-                "age" : self.age_value.get(),
-                "genre" : self.choix.get()}
-            dossier = "~/data" #A modifier en fonction du chemin du dossier
-            os.makedirs(dossier, exist_ok=True)
-
-            chemin_fichier = os.path.join(dossier, self.username+".json")  
-            
-            with open(chemin_fichier, "w") as fichier:
-                json.dump(user_data, fichier, indent=4)
-            
-            print("Data enregistrée")
+        self.bind('<Return>',self.manage_button_click)
+        
+        #def open_questions(self,event):
+            #self.window_controller.go_to_window(self,VueQuestions())
+        
 
 if __name__ == "__main__":
     app = CreationCompte()

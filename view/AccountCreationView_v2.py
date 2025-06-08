@@ -59,7 +59,7 @@ class AccountCreationView(tk.Tk):
             relief="flat",
             command=self.manage_button_click
         )
-        self.create_account_button.pack(pady=130)
+        self.create_account_button.pack(pady=60) #pady  modifie
 
     def manage_button_click(self):
         self.create_account()

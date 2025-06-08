@@ -8,7 +8,84 @@ This is a temporary script file.
 import tkinter as tk
 from tkinter import ttk
 
-class FenetreRobot:
+class FenetreRobot(tk.Tk):
+    
+    def update_canvas(self):
+        '''
+        fonction qui met à jour le canva selon quel bouton est cliqué (quelles caractériqtiques)
+        une partie de cette fonction a été générée par IA
+
+        Returns
+        -------
+        None.
+
+        '''
+        
+        self.canvas.delete("all")
+
+        skin_color = self.couleur_peau()
+        hair_color = self.hair_color.get()
+
+        print(skin_color)
+
+        center_x, center_y = 500, 500
+
+        # Tête
+        self.canvas.create_oval(center_x - 200, center_y - 200, center_x + 200, center_y + 200, fill=skin_color, outline="black")
+
+        # Cheveux
+        style_cheveux = self.style_vars["cheveux"].get()
+        if style_cheveux == "Longs":
+            self.canvas.create_rectangle(center_x - 200, center_y - 240, center_x + 200, center_y - 180, fill=hair_color)
+        elif style_cheveux == "Courts":
+            self.canvas.create_rectangle(center_x - 100, center_y - 200, center_x + 100, center_y - 170, fill=hair_color)
+
+        # Oreilles
+        style_oreilles = self.style_vars["oreilles"].get()
+        if style_oreilles == "Ronde":
+            self.canvas.create_oval(center_x - 240, center_y - 50, center_x - 200, center_y + 50, fill="black")
+            self.canvas.create_oval(center_x + 200, center_y - 50, center_x + 240, center_y + 50, fill="black")
+        elif style_oreilles == "Carrée":
+            self.canvas.create_rectangle(center_x - 240, center_y - 50, center_x - 200, center_y + 50, fill="black")
+            self.canvas.create_rectangle(center_x + 200, center_y - 50, center_x + 240, center_y + 50, fill="black")
+        elif style_oreilles == "Antenne":
+            self.canvas.create_line(center_x - 230, center_y - 50, center_x - 230, center_y - 120, fill="black", width=6)
+            self.canvas.create_line(center_x + 230, center_y - 50, center_x + 230, center_y - 120, fill="black", width=6)
+
+        # Yeux
+        form_yeux = self.style_vars["yeux_forme"].get()
+        color_map = {"bleu": "#0000ff", "vert": "#00cc00", "marron": "#804000", "noir": "#000000"}
+        eye_color = color_map[self.eye_color.get()]
+        if form_yeux == "Rond":
+            self.canvas.create_oval(center_x - 100, center_y - 50, center_x - 60, center_y - 10, fill=eye_color)
+            self.canvas.create_oval(center_x + 60, center_y - 50, center_x + 100, center_y - 10, fill=eye_color)
+        elif form_yeux == "Carré":
+            self.canvas.create_rectangle(center_x - 100, center_y - 50, center_x - 60, center_y - 10, fill=eye_color)
+            self.canvas.create_rectangle(center_x + 60, center_y - 50, center_x + 100, center_y - 10, fill=eye_color)
+        elif form_yeux == "Triangle":
+            self.canvas.create_polygon(center_x - 80, center_y - 50, center_x - 100, center_y - 10, center_x - 60, center_y - 10, fill=eye_color)
+            self.canvas.create_polygon(center_x + 80, center_y - 50, center_x + 60, center_y - 10, center_x + 100, center_y - 10, fill=eye_color)
+
+        # Nez
+        style_nez = self.style_vars["nez"].get()
+        if style_nez == "Petit":
+            self.canvas.create_oval(center_x - 20, center_y + 10, center_x + 20, center_y + 50, fill="black")
+        elif style_nez == "Grand":
+            self.canvas.create_oval(center_x - 40, center_y - 10, center_x + 40, center_y + 60, fill="black")
+        elif style_nez == "Pointu":
+            self.canvas.create_polygon(center_x, center_y - 10, center_x - 20, center_y + 60, center_x + 20, center_y + 60, fill="black")
+
+        # Bouche
+        style_bouche = self.style_vars["bouche"].get()
+        if style_bouche == "Sourire":
+            self.canvas.create_arc(center_x - 100, center_y + 80, center_x + 100, center_y + 140, start=0, extent=-180, style=tk.ARC, outline="black", width=6)
+        elif style_bouche == "Droite":
+            self.canvas.create_line(center_x - 100, center_y + 110, center_x + 100, center_y + 110, fill="black", width=6)
+        elif style_bouche == "Triste":
+            self.canvas.create_arc(center_x - 100, center_y + 110, center_x + 100, center_y + 170, start=0, extent=180, style=tk.ARC, outline="black", width=6)
+            
+        print('b')
+    
     def __init__(self, root):
         self.root = root
         self.root.title("Portrait Robot")
@@ -141,76 +218,7 @@ class FenetreRobot:
         b = int((1 - t) * 179 + t * 40)
         return f'#{r:02x}{g:02x}{b:02x}'
 
-    def update_canvas(self):
-        '''
-        fonction qui met à jour le canva selon quel bouton est cliqué (quelles caractériqtiques)
-        une partie de cette fonction a été générée par IA
-
-        Returns
-        -------
-        None.
-
-        '''
-        self.canvas.delete("all")
-
-        skin_color = self.couleur_peau()
-        hair_color = self.hair_color.get()
-
-        center_x, center_y = 500, 500
-
-        # Tête
-        self.canvas.create_oval(center_x - 200, center_y - 200, center_x + 200, center_y + 200, fill=skin_color, outline="black")
-
-        # Cheveux
-        style_cheveux = self.style_vars["cheveux"].get()
-        if style_cheveux == "Longs":
-            self.canvas.create_rectangle(center_x - 200, center_y - 240, center_x + 200, center_y - 180, fill=hair_color)
-        elif style_cheveux == "Courts":
-            self.canvas.create_rectangle(center_x - 100, center_y - 200, center_x + 100, center_y - 170, fill=hair_color)
-
-        # Oreilles
-        style_oreilles = self.style_vars["oreilles"].get()
-        if style_oreilles == "Ronde":
-            self.canvas.create_oval(center_x - 240, center_y - 50, center_x - 200, center_y + 50, fill="black")
-            self.canvas.create_oval(center_x + 200, center_y - 50, center_x + 240, center_y + 50, fill="black")
-        elif style_oreilles == "Carrée":
-            self.canvas.create_rectangle(center_x - 240, center_y - 50, center_x - 200, center_y + 50, fill="black")
-            self.canvas.create_rectangle(center_x + 200, center_y - 50, center_x + 240, center_y + 50, fill="black")
-        elif style_oreilles == "Antenne":
-            self.canvas.create_line(center_x - 230, center_y - 50, center_x - 230, center_y - 120, fill="black", width=6)
-            self.canvas.create_line(center_x + 230, center_y - 50, center_x + 230, center_y - 120, fill="black", width=6)
-
-        # Yeux
-        form_yeux = self.style_vars["yeux_forme"].get()
-        color_map = {"bleu": "#0000ff", "vert": "#00cc00", "marron": "#804000", "noir": "#000000"}
-        eye_color = color_map[self.eye_color.get()]
-        if form_yeux == "Rond":
-            self.canvas.create_oval(center_x - 100, center_y - 50, center_x - 60, center_y - 10, fill=eye_color)
-            self.canvas.create_oval(center_x + 60, center_y - 50, center_x + 100, center_y - 10, fill=eye_color)
-        elif form_yeux == "Carré":
-            self.canvas.create_rectangle(center_x - 100, center_y - 50, center_x - 60, center_y - 10, fill=eye_color)
-            self.canvas.create_rectangle(center_x + 60, center_y - 50, center_x + 100, center_y - 10, fill=eye_color)
-        elif form_yeux == "Triangle":
-            self.canvas.create_polygon(center_x - 80, center_y - 50, center_x - 100, center_y - 10, center_x - 60, center_y - 10, fill=eye_color)
-            self.canvas.create_polygon(center_x + 80, center_y - 50, center_x + 60, center_y - 10, center_x + 100, center_y - 10, fill=eye_color)
-
-        # Nez
-        style_nez = self.style_vars["nez"].get()
-        if style_nez == "Petit":
-            self.canvas.create_oval(center_x - 20, center_y + 10, center_x + 20, center_y + 50, fill="black")
-        elif style_nez == "Grand":
-            self.canvas.create_oval(center_x - 40, center_y - 10, center_x + 40, center_y + 60, fill="black")
-        elif style_nez == "Pointu":
-            self.canvas.create_polygon(center_x, center_y - 10, center_x - 20, center_y + 60, center_x + 20, center_y + 60, fill="black")
-
-        # Bouche
-        style_bouche = self.style_vars["bouche"].get()
-        if style_bouche == "Sourire":
-            self.canvas.create_arc(center_x - 100, center_y + 80, center_x + 100, center_y + 140, start=0, extent=-180, style=tk.ARC, outline="black", width=6)
-        elif style_bouche == "Droite":
-            self.canvas.create_line(center_x - 100, center_y + 110, center_x + 100, center_y + 110, fill="black", width=6)
-        elif style_bouche == "Triste":
-            self.canvas.create_arc(center_x - 100, center_y + 110, center_x + 100, center_y + 170, start=0, extent=180, style=tk.ARC, outline="black", width=6)
+    
 
 #if __name__ == "__main__":
     #root = tk.Tk()

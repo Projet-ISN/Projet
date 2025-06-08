@@ -79,7 +79,7 @@ class CreationCompte(tk.Tk) :
             "nom" : self.entry2.get(),
             "age" : self.age_value.get(),
             "genre" : self.choix.get()}
-        dossier = "~/data" #A modifier en fonction du chemin du dossier
+        dossier = "users/" #A modifier en fonction du chemin du dossier
         os.makedirs(dossier, exist_ok=True)
 
         chemin_fichier = os.path.join(dossier, self.username+".json")  

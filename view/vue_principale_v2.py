@@ -43,7 +43,7 @@ class VuePrincipale(tk.Tk):
 
         # Bouton Valider
         self.validate_button = tk.Button(main_frame, text="Valider", font=font_button, bg="#e1a4b6", fg="white", relief="flat")
-        self.validate_button.pack(pady=70)
+        self.validate_button.pack(pady=20)  #pady modifie
 
         # Frame pour les deux petits boutons
         bottom_frame = tk.Frame(main_frame, bg="#fbe8ea")
