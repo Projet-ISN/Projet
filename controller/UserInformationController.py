@@ -8,6 +8,10 @@ if not os.path.exists(FOLDER):
 
 
 class UserInformationController:
+    """
+    Classe pour gérer les informations personnelles des utilisateurs.
+    Elle permet de créer, récupérer et supprimer les informations des utilisateurs dans des fichiers JSON.
+    """
     # C'est équivalent à un constructeur vide mais c'est plus clair.
     def __init__(self):
         pass

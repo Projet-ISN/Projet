@@ -10,6 +10,7 @@ from controller.UserInformationController import UserInformationController
 from controller.WindowController import WindowController
 from model.UserPersonalInformation import UserPersonalInformation
 from view.AvatarCreationView import AvatarCreationView
+from view.QuestionsView import QuestionsView
 
 
 class UserCreationView(tk.Toplevel):
@@ -130,7 +131,7 @@ class UserCreationView(tk.Toplevel):
             bg="#e1a4b6",
             fg="white",
             relief="flat",
-            command=self.manage_button_click,
+            command=self.go_to_avatar_creation,
         )
         self.portrait.pack(side=tk.RIGHT, padx=100)
 
@@ -142,11 +143,12 @@ class UserCreationView(tk.Toplevel):
             bg="#e1a4b6",
             fg="white",
             relief="flat",
+            command=self.go_to_questions,
         )
         self.jecree.pack(side=tk.LEFT, padx=100)
 
     def open_avatar_creation(self):
-        self.window_controller.go_to_window(self, AvatarCreationView())
+        self.window_controller.go_to_window(self, AvatarCreationView(self.window_controller, self.username))
 
     def enregistrer_data(self):
         name = self.entry1.get()
@@ -159,16 +161,21 @@ class UserCreationView(tk.Toplevel):
 
         print("Données enregistrées pour :", self.username)
 
-    def manage_button_click(self):
+    def go_to_questions(self):
+        if not self.entry1.get() or not self.entry2.get():
+            tk.messagebox.showerror("Erreur", "Tous les champs doivent être remplis.")
+            return
+        
+        self.enregistrer_data()
+        self.window_controller.go_to_window(self, QuestionsView(self.username, 1))
+
+    def go_to_avatar_creation(self):
         if not self.entry1.get() or not self.entry2.get():
             tk.messagebox.showerror("Erreur", "Tous les champs doivent être remplis.")
             return
         
         self.enregistrer_data()
         self.open_avatar_creation()
-
-        # def open_questions(self,event):
-        # self.window_controller.go_to_window(self,VueQuestions())
 
 
 if __name__ == "__main__":

@@ -5,6 +5,10 @@ from util.database import database
 
 
 class AccountController:
+    """
+    Classe qui gère les opérations liées aux comptes utilisateurs.
+    Elle permet de créer, récupérer, supprimer des comptes
+    """
     # C'est équivalent à un constructeur vide mais c'est plus clair.
     def __init__(self):
         pass

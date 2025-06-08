@@ -1,14 +1,20 @@
 import tkinter as tk
 from tkinter import ttk
 
+from view.QuestionsView import QuestionsView
+
 
 class AvatarCreationView(tk.Toplevel):
-    def __init__(self):
+    def __init__(self, window_controller, username: str):
         super().__init__()
+
         self.title("Portrait Robot")
         self.attributes("-fullscreen", True)
         self.configure(bg="#fbe8ea")
         self.bind("<Escape>", lambda e: self.attributes("-fullscreen", False))
+
+        self.window_controller = window_controller
+        self.username = username
 
         # Style
         style = ttk.Style()
@@ -399,7 +405,7 @@ class AvatarCreationView(tk.Toplevel):
         skin_scale.pack(fill="x", pady=10)
 
         btn = ttk.Button(
-            frame, text="Sauvegarder son portrait robot", command=self.update_canvas
+            frame, text="Sauvegarder son portrait robot", command=self.go_to_questions
         )
         btn.pack(pady=10)
 
@@ -419,6 +425,11 @@ class AvatarCreationView(tk.Toplevel):
         g = int((1 - t) * 222 + t * 60)
         b = int((1 - t) * 179 + t * 40)
         return f"#{r:02x}{g:02x}{b:02x}"
+    
+
+    def go_to_questions(self):
+        # TODO: Implement the logic to save the avatar creation data
+        self.window_controller.go_to_window(self, QuestionsView(self.username, 1))
 
 
 if __name__ == "__main__":

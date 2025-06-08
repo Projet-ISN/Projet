@@ -105,6 +105,10 @@ class AccountCreationView(tk.Toplevel):
         if password != password_confirm:
             messagebox.showerror("Erreur", "Les mots de passe ne correspondent pas.")
             return False
+        
+        if self.account_controller.account_exists(username):
+            messagebox.showerror("Erreur", "Un compte avec ce nom d'utilisateur existe déjà.")
+            return False
 
         account_information = UserAccountInformation(username, password)
 

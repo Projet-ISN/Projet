@@ -9,9 +9,7 @@
             "Mon âme soeur" 
         ],
         "choix" : "unique"
-        
     },
-
     {
         "index": 2,
         "question": "Ta soirée idéale ?",
@@ -22,9 +20,7 @@
             "Seul au monde, chez toi" 
         ],
         "choix" : "unique"
-        
     },
-    
     {
         "index": 3,
         "question": "Souhaites-tu des enfants ?",
@@ -35,9 +31,7 @@
             "11" 
         ],
         "choix" : "unique"
-        
     },
-    
     {
         "index": 4,
         "question": "Crois-tu en l'astrologie ?",
@@ -47,7 +41,6 @@
         ],
         "choix" : "unique"
     },
-    
     {
         "index": 5,
         "question": "Quel genre(s) de musiques écoutes-tu ?",
@@ -59,7 +52,6 @@
         ],
         "choix" : "multiple"
     },
-    
     {
         "index": 6,
         "question": "Localisation de rêve ?",
@@ -71,7 +63,6 @@
         ],
         "choix" : "unique"
     },
-    
     {
         "index": 7,
         "question": "Type de film que tu préfères ?",
@@ -83,7 +74,6 @@
         ],
         "choix" : "unique"
     },
-    
     {
         "index": 8,
         "question": "Chat ou chien ?",
@@ -95,7 +85,6 @@
         ],
         "choix" : "unique"
     },
-    
     {
         "index": 9,
         "question": "Pain au chocolat ou chocolatine ?",
@@ -107,7 +96,6 @@
         ],
         "choix" : "unique"
     },
-    
     {
         "index": 10,
         "question": "Je m'identifie plus à : ",
@@ -120,4 +108,3 @@
         "choix" : "unique"
     }
 ]
-    
