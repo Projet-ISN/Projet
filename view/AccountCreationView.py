@@ -1,60 +1,113 @@
+# -*- coding: utf-8 -*-
+"""
+Created on Sat Jun  7 15:59:54 2025
+
+@author: stani
+"""
+
 import tkinter as tk
+from tkinter import messagebox
+
+# from view.AccountCreationView import AccountCreationView
 
 from model.User import User
 from model.UserAccountInformation import UserAccountInformation
-from view.AccountCreation_pt2 import CreationCompte
+from view.UserCreationView import UserCreationView
 
-class AccountCreationView(tk.Tk):
+
+class AccountCreationView(tk.Toplevel):
     def __init__(self, user_controller, window_controller):
         super().__init__()
-        self.geometry("450x300")
         self.title("Création de compte")
-        
+        self.configure(bg="#fbe8ea")
+        self.attributes("-fullscreen", True)
+        self.bind("<Escape>", lambda e: self.attributes("-fullscreen", False))
+
         self.user_controller = user_controller
         self.window_controller = window_controller
 
+        font_label = ("Helvetica", 20)
+        font_entry = ("Helvetica", 20)
+        font_button = ("Helvetica", 16)
+
+        # Frame principale
+        main_frame = tk.Frame(self, bg="#fbe8ea")
+        main_frame.pack(expand=True, pady=10)
+
+        tk.Label(
+            main_frame,
+            text="Création de ton compte",
+            font=("Helvetica", 24, "bold"),
+            bg="#fbe8ea",
+        ).pack(pady=100)
+
         # Nom d'utilisateur
-        self.username_label = tk.Label(self, text="Nom d'utilisateur :")
-        self.username_label.pack(side=tk.TOP)
-        self.username_entry = tk.Entry(self)
-        self.username_entry.pack(side=tk.TOP)
+        tk.Label(
+            main_frame, text="Nom d'utilisateur :", font=font_label, bg="#fbe8ea"
+        ).pack(pady=10)
+        self.username_entry = tk.Entry(main_frame, font=font_entry)
+        self.username_entry.pack(pady=5)
 
         # Mot de passe
-        self.password_label = tk.Label(self, text="Mot de passe :")
-        self.password_label.pack(side=tk.TOP)
-        self.password_entry = tk.Entry(self, show='*')
-        self.password_entry.pack(side=tk.TOP)
+        tk.Label(main_frame, text="Mot de passe :", font=font_label, bg="#fbe8ea").pack(
+            pady=10
+        )
+        self.password_entry = tk.Entry(main_frame, font=font_entry, show="*")
+        self.password_entry.pack(pady=5)
 
-        self.password_confirm_label = tk.Label(self, text="Confirmer le mot de passe :")
-        self.password_confirm_label.pack(side=tk.TOP)
-        self.password_confirm_entry = tk.Entry(self, show='*')
-        self.password_confirm_entry.pack(side=tk.TOP, pady = 10)
+        # Confirmation mot de passe
+        tk.Label(
+            main_frame,
+            text="Confirmer le mot de passe :",
+            font=font_label,
+            bg="#fbe8ea",
+        ).pack(pady=10)
+        self.password_confirm_entry = tk.Entry(main_frame, font=font_entry, show="*")
+        self.password_confirm_entry.pack(pady=10)
 
-        # Bouton de création de compte
-        self.create_account_button = tk.Button(self, text="Créer un compte", command=self.manage_button_click)
-        self.create_account_button.pack(side=tk.TOP, pady = 50)
+        # Bouton de création
+        self.create_account_button = tk.Button(
+            main_frame,
+            text="Créer un compte",
+            font=font_button,
+            bg="#e1a4b6",
+            fg="white",
+            relief="flat",
+            command=self.manage_button_click,
+        )
+        self.create_account_button.pack(pady=60)
 
-    
     def manage_button_click(self):
-        self.create_account()
+        success = self.create_account()
+        if not success:
+            return
+
         self.open_user_pt2_creation(self.username_entry.get())
-    
-    
+
     def create_account(self):
         username = self.username_entry.get()
         password = self.password_entry.get()
         password_confirm = self.password_confirm_entry.get()
 
         if password != password_confirm:
-            tk.messagebox.showerror("Erreur", "Les mots de passe ne correspondent pas.")
-            return
-        
+            messagebox.showerror("Erreur", "Les mots de passe ne correspondent pas.")
+            return False
 
         user_information = UserAccountInformation(username, password)
         user = User(user_information)
 
         self.user_controller.create_user(user)
         print(f"Compte créé pour l'utilisateur : {username}")
-        
+
+        return True
+
     def open_user_pt2_creation(self, username):
-        self.window_controller.go_to_window(self, CreationCompte(self.user_controller, self.window_controller, username))
+        self.window_controller.go_to_window(
+            self,
+            UserCreationView(self.user_controller, self.window_controller, username),
+        )
+
+
+# if __name__ == "__main__":
+#     app = AccountCreationView()
+#     app.mainloop()

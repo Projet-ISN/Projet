@@ -1,12 +1,12 @@
-
-from view.vue_principale_v2 import VuePrincipale
+from view.ConnectionView import ConnectionView
 from controller.UserController import UserController
 from controller.WindowsController import WindowsController
+
 
 def main():
     user_controller = UserController()
     windows_controller = WindowsController()
-    app = VuePrincipale(user_controller, windows_controller)
+    app = ConnectionView(user_controller, windows_controller)
     app.mainloop()
 
 
