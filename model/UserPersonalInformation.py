@@ -22,3 +22,14 @@ class UserPersonalInformation:
 
     def __repr__(self):
         return f"UserPersonalInformation(name={self.name}, surname={self.surname}, age={self.age}, gender={self.gender})"
+    
+    def to_dict(self):
+        """
+        Convertit les informations personnelles de l'utilisateur en un dictionnaire.
+        """
+        return {
+            "name": self.name,
+            "surname": self.surname,
+            "age": self.age,
+            "gender": self.gender
+        }

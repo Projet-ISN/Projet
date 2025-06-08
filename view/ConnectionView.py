@@ -11,13 +11,14 @@ from view.AccountCreationView import AccountCreationView
 
 
 class ConnectionView(tk.Tk):
-    def __init__(self, user_controller, window_controller):
+    def __init__(self, account_controller, user_controller, window_controller):
         super().__init__()
         self.title("Interface de connexion")
         self.configure(bg="#fbe8ea")
         self.attributes("-fullscreen", True)
         self.bind("<Escape>", lambda e: self.attributes("-fullscreen", False))
 
+        self.account_controller = account_controller
         self.user_controller = user_controller
         self.window_controller = window_controller
 
@@ -93,10 +94,10 @@ class ConnectionView(tk.Tk):
         messagebox.showinfo(message="Dommage :(")
 
     def creer_nouveau_compte(self):
-        account_creation_view = AccountCreationView(self.user_controller, self.window_controller)
-        self.window_controller.go_to_window(
-            self, account_creation_view
+        account_creation_view = AccountCreationView(
+            self.account_controller, self.user_controller, self.window_controller
         )
+        self.window_controller.go_to_window(self, account_creation_view)
 
 
 # if __name__ == "__main__" :

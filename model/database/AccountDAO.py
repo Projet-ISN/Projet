@@ -1,4 +1,3 @@
-from model.User import User
 from model.UserAccountInformation import UserAccountInformation
 from model.database.DatabaseConnector import DatabaseConnector
 
@@ -15,12 +14,12 @@ class AccountDAO:
     def __init__(self, connector: DatabaseConnector):
         self.__connector = connector
 
-    def save_account(self, user: User) -> bool:
+    def save_account(self, user: UserAccountInformation) -> bool:
         query = f"INSERT INTO {TABLE_NAME} (username, password) VALUES (%s, %s) ON DUPLICATE KEY UPDATE password = %s"
         params = (
-            user.account_information.username,
-            user.account_information.password,
-            user.account_information.password,
+            user.username,
+            user.password,
+            user.password,
         )
 
         try:
@@ -31,7 +30,7 @@ class AccountDAO:
 
         return True
 
-    def get_account(self, username: str) -> User:
+    def get_account(self, username: str) -> UserAccountInformation | None:
         query = f"SELECT * FROM {TABLE_NAME} WHERE username = %s"
         params = (username,)
 
@@ -43,12 +42,12 @@ class AccountDAO:
                     password=result[0][1],
                 )
 
-                return User(information)
+                return UserAccountInformation(information)
 
         except Exception as e:
             print(f"Error retrieving account: {e})")
 
-        return None # type: ignore
+        return None
 
     def delete_account(self, username: str) -> bool:
         query = f"DELETE FROM {TABLE_NAME} WHERE username = %s"

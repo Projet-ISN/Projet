@@ -1,12 +1,15 @@
+from controller.UserInformationController import UserInformationController
 from view.ConnectionView import ConnectionView
-from controller.UserController import UserController
-from controller.WindowsController import WindowsController
+from controller.AccountController import AccountController
+from controller.WindowController import WindowController
 
 
 def main():
-    user_controller = UserController()
-    windows_controller = WindowsController()
-    app = ConnectionView(user_controller, windows_controller)
+    account_controller = AccountController()
+    user_controller = UserInformationController()
+    windows_controller = WindowController()
+
+    app = ConnectionView(account_controller, user_controller, windows_controller)
     app.mainloop()
 
 

@@ -6,41 +6,19 @@ Created on Thu Jun  5 08:34:12 2025
 """
 
 import tkinter as tk
-from tkinter import *
+from controller.UserInformationController import UserInformationController
+from controller.WindowController import WindowController
+from model.UserPersonalInformation import UserPersonalInformation
 from view.AvatarCreationView import AvatarCreationView
-import json
-import os
 
 
 class UserCreationView(tk.Toplevel):
-    def open_avatar_creation(self):
-        self.window_controller.go_to_window(self, AvatarCreationView())
-
-    def enregistrer_data(self):
-        user_data = {
-            "username": self.username,
-            "prenom": self.entry1.get(),
-            "nom": self.entry2.get(),
-            "age": self.age_value.get(),
-            "genre": self.choix.get(),
-        }
-        dossier = "data/users"
-
-        if not os.path.exists(dossier):
-            os.mkdir(dossier)
-
-        chemin_fichier = os.path.join(dossier, self.username + ".json")
-
-        with open(chemin_fichier, "w") as fichier:
-            json.dump(user_data, fichier, indent=4)
-
-        print("Données enregistrées pour :", self.username)
-
-    def manage_button_click(self):
-        self.enregistrer_data()
-        self.open_avatar_creation()
-
-    def __init__(self, user_controller, window_controller, username):
+    def __init__(
+        self,
+        user_controller: UserInformationController,
+        window_controller: WindowController,
+        username,
+    ):
         super().__init__()
 
         self.title("Création de ton compte")
@@ -48,6 +26,7 @@ class UserCreationView(tk.Toplevel):
         self.configure(bg="#fbe8ea")
         self.attributes("-fullscreen", True)
         self.bind("<Escape>", lambda e: self.attributes("-fullscreen", False))
+
         self.user_controller = user_controller
         self.window_controller = window_controller
         self.username = username
@@ -166,7 +145,23 @@ class UserCreationView(tk.Toplevel):
         )
         self.jecree.pack(side=tk.LEFT, padx=100)
 
-        # self.bind("<Return>", self.manage_button_click)
+    def open_avatar_creation(self):
+        self.window_controller.go_to_window(self, AvatarCreationView())
+
+    def enregistrer_data(self):
+        name = self.entry1.get()
+        surname = self.entry2.get()
+        age = self.age_value.get()
+        genre = self.choix.get()
+
+        user_information = UserPersonalInformation(name, surname, age, genre)
+        self.user_controller.create_user_information(self.username, user_information)
+
+        print("Données enregistrées pour :", self.username)
+
+    def manage_button_click(self):
+        self.enregistrer_data()
+        self.open_avatar_creation()
 
         # def open_questions(self,event):
         # self.window_controller.go_to_window(self,VueQuestions())

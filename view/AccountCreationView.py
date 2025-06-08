@@ -10,19 +10,28 @@ from tkinter import messagebox
 
 # from view.AccountCreationView import AccountCreationView
 
+from controller.AccountController import AccountController
+from controller.UserInformationController import UserInformationController
+from controller.WindowController import WindowController
 from model.User import User
 from model.UserAccountInformation import UserAccountInformation
 from view.UserCreationView import UserCreationView
 
 
 class AccountCreationView(tk.Toplevel):
-    def __init__(self, user_controller, window_controller):
+    def __init__(
+        self,
+        account_controller: AccountController,
+        user_controller: UserInformationController,
+        window_controller: WindowController,
+    ):
         super().__init__()
         self.title("Création de compte")
         self.configure(bg="#fbe8ea")
         self.attributes("-fullscreen", True)
         self.bind("<Escape>", lambda e: self.attributes("-fullscreen", False))
 
+        self.account_controller = account_controller
         self.user_controller = user_controller
         self.window_controller = window_controller
 
@@ -93,10 +102,9 @@ class AccountCreationView(tk.Toplevel):
             messagebox.showerror("Erreur", "Les mots de passe ne correspondent pas.")
             return False
 
-        user_information = UserAccountInformation(username, password)
-        user = User(user_information)
+        account_information = UserAccountInformation(username, password)
 
-        self.user_controller.create_user(user)
+        self.account_controller.create_account(account_information)
         print(f"Compte créé pour l'utilisateur : {username}")
 
         return True
