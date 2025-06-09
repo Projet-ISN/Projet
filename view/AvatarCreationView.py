@@ -17,7 +17,7 @@ class AvatarCreationView(tk.Toplevel):
         self.window_controller = window_controller
         self.username = username
 
-        # Style
+        # On configure d'abord tous les styles qu'on utilisera ensuite
         style = ttk.Style()
         style.theme_use("clam")
         style.configure("TNotebook", background="#fbe8ea", borderwidth=0)
@@ -42,23 +42,25 @@ class AvatarCreationView(tk.Toplevel):
             "TButton", background="#e1a4b6", foreground="white", font=("Helvetica", 20)
         )
 
-        # Canvas
+        # On construit le canva qui où sera l'avatar
         self.canvas = tk.Canvas(
-            self, width=1000, height=1000, bg="#fbe8ea", highlightthickness=0
+            self, width=1000, height=1000, bg="#fbe8ea", highlightthickness=0 #supprime le contour de surbrillance
         )
-        self.canvas.grid(row=0, column=1, padx=40, pady=40, sticky="n")
+        self.canvas.grid(row=0, column=1, padx=40, pady=40, sticky="n") #on le colle à droite / nord
 
-        # Notebook avec différents onglets
+        # Notebook avec les différents onglets
         self.notebook = ttk.Notebook(self)
-        self.notebook.grid(row=0, column=0, sticky="nsew", padx=40, pady=40)
-
+        self.notebook.grid(row=0, column=0, sticky="nsew", padx=40, pady=40) # le widget s'étire dans toutes les direction nord, sud, est, ouest
+        
+        # Les onglets en question sont construits ici
         self.frames = {}
         categories = ["Cheveux", "Oreilles", "Nez", "Yeux", "Bouche", "Couleurs"]
         for cat in categories:
             frame = ttk.Frame(self.notebook, padding=20)
             self.notebook.add(frame, text=cat)
-            self.frames[cat.lower()] = frame
+            self.frames[cat.lower()] = frame # Stockage des Frame dans un dictionnaire pour mieux les retrouver ensuite
 
+        # Les valeurs associées par défaut à l'avatar
         self.style_vars = {
             "cheveux": tk.StringVar(value="Longs"),
             "oreilles": tk.StringVar(value="Ronde"),
@@ -70,10 +72,11 @@ class AvatarCreationView(tk.Toplevel):
         self.hair_color = tk.StringVar(value="#FAEBA7")
         self.skin_tone = tk.IntVar(value=30)
 
+        # L'avatar est construit
         self.creation_portrait()
         self.update_canvas()
 
-        self.grid_rowconfigure(0, weight=1)
+        self.grid_rowconfigure(0, weight=1) # weight : cette ligne recevra une part de l’espace supplémentaire quand la fenêtre s’agrandira.
         self.grid_columnconfigure(0, weight=1)
 
     def update_canvas(self):
@@ -291,7 +294,7 @@ class AvatarCreationView(tk.Toplevel):
 
     def creation_portrait(self):
         """
-        fonction qui définit différentes options à cocher (radiobutton) pour chaque caractériqtique du potrait
+        fonction qui définit différentes options à cocher (radiobutton) pour chaque caractéristtique du potrait
 
         Returns
         -------
@@ -299,7 +302,7 @@ class AvatarCreationView(tk.Toplevel):
 
         """
         # Cheveux
-        frame = self.frames["cheveux"]
+        frame = self.frames["cheveux"] # on utilise le dico construit au début !
         ttk.Label(frame, text="Style des cheveux :").pack(anchor="w")
         for option in ["Longs", "Courts"]:
             ttk.Radiobutton(
@@ -431,7 +434,6 @@ class AvatarCreationView(tk.Toplevel):
     def go_to_questions(self):
         # TODO: Implement the logic to save the avatar creation data
         self.window_controller.go_to_window(self, QuestionsView(self.user_controller, self.username))
-
 
 if __name__ == "__main__":
     app = AvatarCreationView()
