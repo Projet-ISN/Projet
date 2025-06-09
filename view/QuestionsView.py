@@ -10,7 +10,8 @@ from controller.UserController import UserController
 from controller.WindowController import WindowController
 from model.SurveyAnswers import SurveyAnswers
 from util.json_utils import load_questions
-from view.FindLoveView import FindLoveView
+from view.MainView import MainView
+from view.ResultsView import ResultsView
 
 QUESTIONS_PATH = "data/questions.json"
 
@@ -21,9 +22,11 @@ class QuestionsView(tk.Toplevel):
     def __init__(
         self,
         user_controller: UserController,
+        window_controller: WindowController,
         username,
-        question_index = 0,
+        question_index=0,
         answers: dict = {},
+        expectation_mode=False,
     ):
         super().__init__()
 
@@ -33,9 +36,11 @@ class QuestionsView(tk.Toplevel):
         self.bind("<Escape>", lambda e: self.attributes("-fullscreen", False))
 
         self.user_controller = user_controller
+        self.window_controller = window_controller
         self.username = username
         self.index = question_index
         self.answers = answers
+        self.expectation_mode = expectation_mode
         self.question = questions[question_index]
 
         # affichage de la question
@@ -60,7 +65,9 @@ class QuestionsView(tk.Toplevel):
             bg="#fbe8ea",
             fg="#4b2e2e",
         )
-        self.importance.pack(pady=20)
+
+        if self.expectation_mode:
+            self.importance.pack(pady=20)
 
         self.sc1 = tk.Scale(
             self.middle,
@@ -77,7 +84,9 @@ class QuestionsView(tk.Toplevel):
             highlightbackground="#fbe8ea",
             activebackground="#fbe8ea",
         )
-        self.sc1.pack(pady=15)
+
+        if expectation_mode:
+            self.sc1.pack(pady=15)
 
         self.frame = tk.Frame(self, bg="#fbe8ea")
         self.frame.pack()
@@ -223,12 +232,16 @@ class QuestionsView(tk.Toplevel):
     def go_to_previous_question(self):
         if self.index > 0:
             self.index -= 1
-            QuestionsView(self.user_controller, self.username, self.index)
+            QuestionsView(
+                self.user_controller,
+                self.window_controller,
+                self.username,
+                self.index,
+                expectation_mode=self.expectation_mode,
+            )
             self.destroy()
 
     def go_to_next_question(self):
-        
-
         if self.question["choix"] == "unique":
             self.answers[self.index] = self.choix.get()
 
@@ -240,17 +253,36 @@ class QuestionsView(tk.Toplevel):
                 self.choix4.get(),
             ]
 
+        if self.expectation_mode:
+            self.answers[self.index] = {
+                "answer": self.answers[self.index],
+                "importance": self.sc1.get(),
+            }
+
         if self.index < len(questions) - 1:
             self.index += 1
-            QuestionsView(self.user_controller, self.username, self.index)
+            QuestionsView(
+                self.user_controller,
+                self.window_controller,
+                self.username,
+                self.index,
+                expectation_mode=self.expectation_mode,
+            )
             self.destroy()
         elif self.index == len(questions) - 1:
             self.finish_survey()
 
     def finish_survey(self):
         survey_answers = SurveyAnswers(self.username, self.answers)
-        self.user_controller.add_users_survey_answers(survey_answers)
 
-        self.WindowController.go_to_window(self,FindLoveView(self.username))
+        if self.expectation_mode:
+            self.user_controller.add_users_expectations(survey_answers.answers)
+            self.window_controller.go_to_window(self, ResultsView([], []))
+        else:
+            self.user_controller.add_users_survey_answers(survey_answers)
+            self.window_controller.go_to_window(
+                self,
+                MainView(self.username, self.user_controller, self.window_controller),
+            )
 
         print(f"Réponses enregistrées pour {self.username}")

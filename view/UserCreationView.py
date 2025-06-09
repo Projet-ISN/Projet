@@ -169,7 +169,7 @@ class UserCreationView(tk.Toplevel):
             return
 
         self.enregistrer_data()
-        self.window_controller.go_to_window(self, QuestionsView(self.user_controller, self.username))
+        self.window_controller.go_to_window(self, QuestionsView(self.user_controller, self.window_controller, self.username))
 
     def go_to_avatar_creation(self):
         if not self.entry1.get() or not self.entry2.get():

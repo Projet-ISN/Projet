@@ -53,3 +53,14 @@ class UserController:
 
         with open(file_path, "w") as fichier:
             json.dump(data, fichier, indent=4)
+
+    
+    def add_users_expectations(self, expectations):
+        file_path = f"{FOLDER}/{expectations.username}.json"
+        with open(file_path, "r") as fichier:
+            data = json.load(fichier)
+
+        data["expectations"] = expectations
+
+        with open(file_path, "w") as fichier:
+            json.dump(data, fichier, indent=4)
