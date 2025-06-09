@@ -60,7 +60,7 @@ class UserController:
         with open(file_path, "r") as fichier:
             data = json.load(fichier)
 
-        data["expectations"] = expectations
+        data["expectations"] = expectations.answers
 
         with open(file_path, "w") as fichier:
             json.dump(data, fichier, indent=4)

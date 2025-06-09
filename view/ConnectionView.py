@@ -8,6 +8,7 @@ Created on Sat Jun  7 15:38:06 2025
 import tkinter as tk
 from tkinter import messagebox
 from view.AccountCreationView import AccountCreationView
+from view.MainView import MainView
 
 
 class ConnectionView(tk.Tk):
@@ -60,7 +61,7 @@ class ConnectionView(tk.Tk):
             bg="#e1a4b6",
             fg="white",
             relief="flat",
-            command=self.login
+            command=self.login,
         )
 
         self.validate_button.pack(pady=20)  # pady modifie
@@ -112,12 +113,18 @@ class ConnectionView(tk.Tk):
         user_account = self.account_controller.get_account(username)
 
         if user_account is None:
-            messagebox.showerror("Erreur", "Nom d'utilisateur ou mot de passe incorrect.")
+            messagebox.showerror(
+                "Erreur", "Nom d'utilisateur ou mot de passe incorrect."
+            )
             return
 
         if not self.account_controller.verify_password(username, password):
-            messagebox.showerror("Erreur", "Nom d'utilisateur ou mot de passe incorrect.")
+            messagebox.showerror(
+                "Erreur", "Nom d'utilisateur ou mot de passe incorrect."
+            )
             return
 
-        # Si la connexion est réussie, on peut ouvrir la fenêtre principale
+        self.window_controller.go_to_window(
+            self, MainView(username, self.user_controller, self.window_controller)
+        )
         print(f"Connexion réussie pour l'utilisateur : {username}")

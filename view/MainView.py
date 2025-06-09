@@ -51,5 +51,5 @@ class MainView(tk.Toplevel):
 
         self.window_controller.go_to_window(
             self,
-            QuestionsView(self.username, self.user_controller, self.username, expectation_mode=True),
+            QuestionsView(self.user_controller, self.window_controller, self.username, expectation_mode=True),
         )

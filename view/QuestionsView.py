@@ -23,7 +23,7 @@ class QuestionsView(tk.Toplevel):
         self,
         user_controller: UserController,
         window_controller: WindowController,
-        username,
+        username: str,
         question_index=0,
         answers: dict = {},
         expectation_mode=False,
@@ -85,7 +85,7 @@ class QuestionsView(tk.Toplevel):
             activebackground="#fbe8ea",
         )
 
-        if expectation_mode:
+        if self.expectation_mode:
             self.sc1.pack(pady=15)
 
         self.frame = tk.Frame(self, bg="#fbe8ea")
@@ -276,7 +276,7 @@ class QuestionsView(tk.Toplevel):
         survey_answers = SurveyAnswers(self.username, self.answers)
 
         if self.expectation_mode:
-            self.user_controller.add_users_expectations(survey_answers.answers)
+            self.user_controller.add_users_expectations(survey_answers)
             self.window_controller.go_to_window(self, ResultsView([], []))
         else:
             self.user_controller.add_users_survey_answers(survey_answers)
