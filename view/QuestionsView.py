@@ -7,8 +7,10 @@ Created on Wed Jun  4 20:04:26 2025
 import tkinter as tk
 from tkinter import *
 from controller.UserController import UserController
+from controller.WindowController import WindowController
 from model.SurveyAnswers import SurveyAnswers
 from util.json_utils import load_questions
+from view.FindLoveView import FindLoveView
 
 QUESTIONS_PATH = "data/questions.json"
 
@@ -249,6 +251,6 @@ class QuestionsView(tk.Toplevel):
         survey_answers = SurveyAnswers(self.username, self.answers)
         self.user_controller.add_users_survey_answers(survey_answers)
 
-        # TODO: Send user to main view
+        self.WindowController.go_to_window(self,FindLoveView(self.username))
 
         print(f"Réponses enregistrées pour {self.username}")
