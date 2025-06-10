@@ -14,17 +14,17 @@ class AccountDAO:
     def __init__(self, connector: DatabaseConnector):
         self.__connector = connector
 
-    def save_account(self, user: UserAccountInformation) -> bool:
-        query = f"INSERT INTO {TABLE_NAME} (username, password) VALUES (%s, %s) ON DUPLICATE KEY UPDATE password = %s"
+    def save_account(self, user: UserAccountInformation) -> bool: #bool est le type de retour
+        query = f"INSERT INTO {TABLE_NAME} (username, password) VALUES (%s, %s) ON DUPLICATE KEY UPDATE password = %s" #la fin de la demande n'est pas nécessaire, elle permettrait de dupliquer un compte dans le cas où deux utilisateur ont le même nom mais une verif sera faite avant. 
         params = (
             user.username,
             user.password,
-            user.password,
+            user.password, #peut se retirer aussi dcp
         )
 
         try:
             self.__connector.execute_query(query, params)
-        except Exception as e:
+        except Exception as e: #s'il y a une erreur, on l'affiche
             print(f"Error saving account: {e}")
             return False
 
