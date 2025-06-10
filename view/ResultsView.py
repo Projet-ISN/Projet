@@ -33,11 +33,13 @@ class ResultsView(tk.Toplevel):
             bg="#fbe8ea",
         ).pack(pady=20)
 
+        compatibilite1 = self.results[0]["compatibility"]
+
         self.match1 = tk.Label(
             main_frame,
             text=self.results[0]["username"]
             + " avec "
-            + str(self.results[0]["compatibility"])
+            + f"{compatibilite1:.2f}"
             + "% de compatibilité",
             font=font_label,
             bg="#fbe8ea",
@@ -52,22 +54,26 @@ class ResultsView(tk.Toplevel):
         )
         self.autres_matchs.pack(pady=(25))
 
+        compatibilite2 = self.results[1]["compatibility"]
+
         self.match2 = tk.Label(
             main_frame,
             text=self.results[1]["username"]
             + " avec "
-            + str(self.results[1]["compatibility"])
+            + f"{compatibilite2:.2f}"
             + "% de compatibilité",
             font=font_label,
             bg="#fbe8ea",
         )
         self.match2.pack(pady=(5))
 
+        compatibilite3 = self.results[2]["compatibility"]
+
         self.match3 = tk.Label(
             main_frame,
             text=self.results[2]["username"]
             + " avec "
-            + str(self.results[2]["compatibility"])
+            + f"{compatibilite3:.2f}"
             + "% de compatibilité",
             font=font_label,
             bg="#fbe8ea",

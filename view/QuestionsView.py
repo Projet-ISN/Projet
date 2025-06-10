@@ -307,15 +307,17 @@ class QuestionsView(tk.Toplevel):
         for username in usernames:
             if username != self.username:
                 person2 = load_user_as_person(username)
-                candidates.append(person2)
+                candidates.append({"username": username, "person": person2})
 
         for candidate in candidates:
-            compatibilite = person.compatibilite(candidate)
+            compatibilite = person.compatibilite(candidate["person"])
 
-            results.append({
-                "username": candidate.username,
-                "compatibility": compatibilite,
-            })
+            results.append(
+                {
+                    "username": candidate["username"],
+                    "compatibility": compatibilite,
+                }
+            )
 
         # Trier les résultats par compatibilité décroissante
         results.sort(key=lambda x: x["compatibility"], reverse=True)

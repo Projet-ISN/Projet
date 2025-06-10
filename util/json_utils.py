@@ -31,14 +31,24 @@ def load_user_as_person(username: str) -> dict:
         data = json.load(file)
 
         answers = [answer for answer in data.get("answers", {}).values()]
+
+        answers.pop(4)
+
         expectations = [
             expectation["answer"]
             for expectation in data.get("expectations", {}).values()
         ]
+
+        expectations.pop(4)
+        
         importances = [
             importance["importance"]
             for importance in data.get("expectations", {}).values()
         ]
+
+        importances.pop(4)
+
+        print(answers, expectations, importances)
 
         return Person(answers, expectations, importances)
 
