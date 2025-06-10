@@ -1,6 +1,7 @@
 import json
+import os
 
-from util.appariement import People
+from util.appariement import Person
 
 
 def load_questions(file_path: str) -> list:
@@ -16,21 +17,41 @@ def load_questions(file_path: str) -> list:
         questions = list(data)
 
         return questions
-    
-def load_user_as_people(file_path: str) -> dict:
-    """
-    Load user data from a JSON file into a dictionary.
 
-    :param file_path: Path to the JSON file.
-    :return: User data as a dictionary.
+
+def load_user_as_person(username: str) -> dict:
     """
-    
+    Load user data from a JSON file and convert it into a Person object.
+    :param file_path: Path to the JSON file containing user data.
+    :return: A Person object containing answers, expectations, and importances.
+    """
+    file_path = f"data/users/{username}.json"
+
     with open(file_path, "r", encoding="utf-8") as file:
         data = json.load(file)
-        
-        answers = [answer for answer in data.get("answers", {}).values()]
-        expectations = [expectation for expectation in data.get("expectations", {}).values()["answer"]]
-        importances = [importance for importance in data.get("expectations", {}).values()["importance"]]
 
-        return People(answers, expectations, importances)
-    
+        answers = [answer for answer in data.get("answers", {}).values()]
+        expectations = [
+            expectation["answer"]
+            for expectation in data.get("expectations", {}).values()
+        ]
+        importances = [
+            importance["importance"]
+            for importance in data.get("expectations", {}).values()
+        ]
+
+        return Person(answers, expectations, importances)
+
+def get_usernames() -> list:
+    """
+    Get a list of all usernames from the user data directory.
+    :return: List of usernames.
+    """
+
+    folder = "data/users"
+    if not os.path.exists(folder):
+        return []
+
+    return [
+        filename[:-5] for filename in os.listdir(folder) if filename.endswith(".json")
+    ]  # Remove the '.json' extension

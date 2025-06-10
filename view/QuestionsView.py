@@ -4,12 +4,15 @@ Created on Wed Jun  4 20:04:26 2025
 
 @author: stani
 """
+import re
 import tkinter as tk
 from tkinter import *
+
+from arrow import get
 from controller.UserController import UserController
 from controller.WindowController import WindowController
 from model.SurveyAnswers import SurveyAnswers
-from util.json_utils import load_questions
+from util.json_utils import load_questions, load_user_as_person, get_usernames
 from view.MainView import MainView
 from view.ResultsView import ResultsView
 
@@ -35,7 +38,9 @@ class QuestionsView(tk.Toplevel):
         self.configure(bg="#fbe8ea")  # couleur de fond
         self.bind("<Escape>", lambda e: self.attributes("-fullscreen", False))
 
-        self.bind("<Return>", self.go_to_next_question)  # appuyer sur entrée pour aller à la question suivante
+        self.bind(
+            "<Return>", self.go_to_next_question
+        )  # appuyer sur entrée pour aller à la question suivante
 
         self.user_controller = user_controller
         self.window_controller = window_controller
@@ -279,7 +284,10 @@ class QuestionsView(tk.Toplevel):
 
         if self.expectation_mode:
             self.user_controller.add_users_expectations(survey_answers)
-            self.window_controller.go_to_window(self, ResultsView([], []))
+            result = self.calculate_result()
+
+            self.window_controller.go_to_window(self, ResultsView(result))
+
         else:
             self.user_controller.add_users_survey_answers(survey_answers)
             self.window_controller.go_to_window(
@@ -288,3 +296,29 @@ class QuestionsView(tk.Toplevel):
             )
 
         print(f"Réponses enregistrées pour {self.username}")
+
+    def calculate_result(self):
+        results = []
+        person = load_user_as_person(self.username)
+
+        usernames = get_usernames()
+
+        candidates = []
+        for username in usernames:
+            if username != self.username:
+                person2 = load_user_as_person(username)
+                candidates.append(person2)
+
+        for candidate in candidates:
+            compatibilite = person.compatibilite(candidate)
+
+            results.append({
+                "username": candidate.username,
+                "compatibility": compatibilite,
+            })
+
+        # Trier les résultats par compatibilité décroissante
+        results.sort(key=lambda x: x["compatibility"], reverse=True)
+        results = results[:3]
+
+        return results

@@ -1,7 +1,7 @@
 import math
 
 
-class People:
+class Person:
     """
     Classe qui permet de creer un profil de personne avec ses reponses, attentes et importances
     Elle permet de calculer la compatibilite entre deux personnes en utilisant deux methodes:
@@ -49,7 +49,6 @@ class People:
 
         self.n_perso = math.sqrt(self.n_perso)
         self.n_attentes = math.sqrt(self.n_attentes)
-        print(self.perso_pond, self.attente_pond, self.n_perso, self.n_attentes)
 
     def produit_scal(self, u, v):
         """
@@ -129,7 +128,7 @@ class People:
         )
         return compat * 100
 
-    def compatibilite(self, personne2, coeff):
+    def compatibilite(self, personne2, coeff = 0.5):
         """
         Calculde la compatibilite total en faisant une moyenne pondere entre les deux methodes utilise (similarite cos et score floue)
         Args:
@@ -145,9 +144,9 @@ class People:
 
 
 if __name__ == "__main__":
-    Martin = People([1, 2, 5, 3, 8], [4, 5, 2, 2, 6], [4, 2, 2, 6, 5])
-    Davi = People([8, 1, 1, 4, 3], [5, 2, 5, 4, 3], [2, 5, 5, 2, 3])
-    Matias = People([4, 5, 2, 2, 6], [1, 2, 5, 3, 8], [40, 20, 20, 60, 50])
+    Martin = Person([1, 2, 5, 3, 8], [4, 5, 2, 2, 6], [4, 2, 2, 6, 5])
+    Davi = Person([8, 1, 1, 4, 3], [5, 2, 5, 4, 3], [2, 5, 5, 2, 3])
+    Matias = Person([4, 5, 2, 2, 6], [1, 2, 5, 3, 8], [40, 20, 20, 60, 50])
 
     a = Matias
 
@@ -157,4 +156,5 @@ if __name__ == "__main__":
 
     print(Martin.compatibilite(a, 0.5))
 
-    print(Matias.compatibilite(Davi, 0.5))
+    result = Matias.compatibilite(Davi, 0.5)
+    print(result)
