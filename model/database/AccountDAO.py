@@ -30,7 +30,7 @@ class AccountDAO:
 
         return True
 
-    def get_account(self, username: str) -> UserAccountInformation | None:
+    def get_account(self, username: str) -> UserAccountInformation:
         query = f"SELECT * FROM {TABLE_NAME} WHERE username = %s"
         params = (username,)
 

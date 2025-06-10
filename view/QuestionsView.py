@@ -35,6 +35,8 @@ class QuestionsView(tk.Toplevel):
         self.configure(bg="#fbe8ea")  # couleur de fond
         self.bind("<Escape>", lambda e: self.attributes("-fullscreen", False))
 
+        self.bind("<Return>", self.go_to_next_question)  # appuyer sur entrée pour aller à la question suivante
+
         self.user_controller = user_controller
         self.window_controller = window_controller
         self.username = username
@@ -140,7 +142,7 @@ class QuestionsView(tk.Toplevel):
                 activebackground="#fbe8ea",
                 selectcolor="#ffe6ec",
             )
-            self.cb4.pack(pady=50)
+            self.cb4.pack(pady=10)
 
         # sinon si elle est à choix unique
         elif self.question["choix"] == "unique":
