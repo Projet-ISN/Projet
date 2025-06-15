@@ -8,7 +8,6 @@ import re
 import tkinter as tk
 from tkinter import *
 
-from arrow import get
 from controller.UserController import UserController
 from controller.WindowController import WindowController
 from model.SurveyAnswers import SurveyAnswers

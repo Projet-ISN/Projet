@@ -432,8 +432,12 @@ class AvatarCreationView(tk.Toplevel):
     
 
     def go_to_questions(self):
-        # TODO: Implement the logic to save the avatar creation data
+        self.save_avatar()
         self.window_controller.go_to_window(self, QuestionsView(self.user_controller, self.window_controller, self.username))
+
+    def save_avatar(self):
+        # TODO: Implement the logic to save the avatar creation data
+        pass
 
 if __name__ == "__main__":
     app = AvatarCreationView()

@@ -33,6 +33,16 @@ class ResultsView(tk.Toplevel):
             bg="#fbe8ea",
         ).pack(pady=20)
 
+        if not self.results:
+            no_match_label = tk.Label(
+                main_frame,
+                text="Aucun match trouvé.",
+                font=font_label,
+                bg="#fbe8ea",
+            )
+            no_match_label.pack(pady=20)
+            return
+
         compatibilite1 = self.results[0]["compatibility"]
 
         self.match1 = tk.Label(
@@ -44,7 +54,11 @@ class ResultsView(tk.Toplevel):
             font=font_label,
             bg="#fbe8ea",
         )
+
         self.match1.pack(pady=10)
+
+        if len(self.results) < 3:
+            return
 
         self.autres_matchs = tk.Label(
             main_frame,
@@ -52,6 +66,7 @@ class ResultsView(tk.Toplevel):
             font=("Helvetica", 20, "bold"),
             bg="#fbe8ea",
         )
+
         self.autres_matchs.pack(pady=(25))
 
         compatibilite2 = self.results[1]["compatibility"]
@@ -65,6 +80,7 @@ class ResultsView(tk.Toplevel):
             font=font_label,
             bg="#fbe8ea",
         )
+
         self.match2.pack(pady=(5))
 
         compatibilite3 = self.results[2]["compatibility"]
@@ -78,4 +94,5 @@ class ResultsView(tk.Toplevel):
             font=font_label,
             bg="#fbe8ea",
         )
+
         self.match3.pack(pady=(5))
