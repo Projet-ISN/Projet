@@ -461,28 +461,3 @@ class AvatarCreationView(tk.Toplevel):
     def save_avatar(self):
         # TODO: Implement the logic to save the avatar creation data
         pass
-
-
-if __name__ == "__main__":
-    # --- Mock classes for standalone testing ---
-    class MockController:
-        def go_to_window(self, old_window, new_window):
-            print(f"Switching from {old_window.title()} to {new_window.title()}")
-            old_window.destroy()
-
-    class MockQuestionsView(tk.Toplevel):
-        def __init__(self, user_controller, window_controller, username: str):
-            super().__init__()
-            self.title("Questions")
-            tk.Label(self, text=f"This is the next screen for {username}").pack(
-                padx=100, pady=100
-            )
-            self.attributes("-fullscreen", True)
-
-    # Replace the real view with the mock for testing
-    QuestionsView = MockQuestionsView
-
-    root = tk.Tk()
-    root.withdraw()
-    app = AvatarCreationView(MockController(), MockController(), "TestUser")
-    app.mainloop()
