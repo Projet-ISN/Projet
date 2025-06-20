@@ -1,0 +1,71 @@
+{
+    "name": "Dummy",
+    "surname": "1",
+    "age": 22,
+    "gender": "Homme",
+    "username": "dummy1",
+    "answers": {
+        "0": 2,
+        "1": 2,
+        "2": 2,
+        "3": 2,
+        "4": [
+            false,
+            false,
+            true,
+            false
+        ],
+        "5": 1,
+        "6": 4,
+        "7": 1,
+        "8": 1,
+        "9": 2
+    },
+    "expectations": {
+        "0": {
+            "answer": 2,
+            "importance": 5
+        },
+        "1": {
+            "answer": 3,
+            "importance": 3
+        },
+        "2": {
+            "answer": 2,
+            "importance": 10
+        },
+        "3": {
+            "answer": 2,
+            "importance": 10
+        },
+        "4": {
+            "answer": [
+                true,
+                true,
+                true,
+                true
+            ],
+            "importance": 1
+        },
+        "5": {
+            "answer": 1,
+            "importance": 1
+        },
+        "6": {
+            "answer": 4,
+            "importance": 5
+        },
+        "7": {
+            "answer": 4,
+            "importance": 1
+        },
+        "8": {
+            "answer": 1,
+            "importance": 10
+        },
+        "9": {
+            "answer": 1,
+            "importance": 1
+        }
+    }
+}
