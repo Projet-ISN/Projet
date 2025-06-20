@@ -1,10 +1,3 @@
-# -*- coding: utf-8 -*-
-"""
-Created on Sat Jun  7 15:59:54 2025
-
-@author: stani
-"""
-
 import tkinter as tk
 from tkinter import messagebox
 
@@ -32,33 +25,37 @@ class AccountCreationView(tk.Toplevel):
         self.user_controller = user_controller
         self.window_controller = window_controller
 
-        font_label = ("Helvetica", 20)
-        font_entry = ("Helvetica", 20)
-        font_button = ("Helvetica", 16)
+        screen_width = self.winfo_screenwidth()
+        screen_height = self.winfo_screenheight()
+
+        font_title = ("Helvetica", int(screen_height * 0.035), "bold")
+        font_label = ("Helvetica", int(screen_height * 0.025))
+        font_entry = ("Helvetica", int(screen_height * 0.025))
+        font_button = ("Helvetica", int(screen_height * 0.02))
 
         # Frame principale
         main_frame = tk.Frame(self, bg="#fbe8ea")
-        main_frame.pack(expand=True, pady=10)
+        main_frame.pack(expand=True)
 
         tk.Label(
             main_frame,
             text="Création de ton compte",
-            font=("Helvetica", 24, "bold"),
+            font=font_title,
             bg="#fbe8ea",
-        ).pack(pady=100)
+        ).pack(pady=(int(screen_height * 0.05), int(screen_height * 0.03)))
 
         # Nom d'utilisateur
         tk.Label(
             main_frame, text="Nom d'utilisateur :", font=font_label, bg="#fbe8ea"
-        ).pack(pady=10)
-        self.username_entry = tk.Entry(main_frame, font=font_entry)
+        ).pack(pady=(10, 5))
+        self.username_entry = tk.Entry(main_frame, font=font_entry, width=30)
         self.username_entry.pack(pady=5)
 
         # Mot de passe
         tk.Label(main_frame, text="Mot de passe :", font=font_label, bg="#fbe8ea").pack(
-            pady=10
+            pady=(10, 5)
         )
-        self.password_entry = tk.Entry(main_frame, font=font_entry, show="*")
+        self.password_entry = tk.Entry(main_frame, font=font_entry, show="*", width=30)
         self.password_entry.pack(pady=5)
 
         # Confirmation mot de passe
@@ -67,9 +64,11 @@ class AccountCreationView(tk.Toplevel):
             text="Confirmer le mot de passe :",
             font=font_label,
             bg="#fbe8ea",
-        ).pack(pady=10)
-        self.password_confirm_entry = tk.Entry(main_frame, font=font_entry, show="*")
-        self.password_confirm_entry.pack(pady=10)
+        ).pack(pady=(10, 5))
+        self.password_confirm_entry = tk.Entry(
+            main_frame, font=font_entry, show="*", width=30
+        )
+        self.password_confirm_entry.pack(pady=(5, 20))
 
         # Bouton de création
         self.create_account_button = tk.Button(
@@ -81,13 +80,14 @@ class AccountCreationView(tk.Toplevel):
             relief="flat",
             command=self.manage_button_click,
         )
-        self.create_account_button.pack(pady=60)
+        self.create_account_button.pack(
+            pady=(10, int(screen_height * 0.04)), ipadx=10, ipady=5
+        )
 
     def manage_button_click(self):
         success = self.create_account()
         if not success:
             return
-
         self.open_user_pt2_creation(self.username_entry.get())
 
     def create_account(self):
@@ -110,10 +110,8 @@ class AccountCreationView(tk.Toplevel):
             return False
 
         account_information = UserAccountInformation(username, password)
-
         self.account_controller.create_account(account_information)
         print(f"Compte créé pour l'utilisateur : {username}")
-
         return True
 
     def open_user_pt2_creation(self, username):
@@ -121,8 +119,3 @@ class AccountCreationView(tk.Toplevel):
             self,
             UserCreationView(self.user_controller, self.window_controller, username),
         )
-
-
-# if __name__ == "__main__":
-#     app = AccountCreationView()
-#     app.mainloop()

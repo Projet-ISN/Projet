@@ -1,10 +1,3 @@
-# -*- coding: utf-8 -*-
-"""
-Created on Sat Jun  7 15:38:06 2025
-
-@author: stani
-"""
-
 import tkinter as tk
 from tkinter import messagebox
 from view.AccountCreationView import AccountCreationView
@@ -23,37 +16,40 @@ class ConnectionView(tk.Tk):
         self.user_controller = user_controller
         self.window_controller = window_controller
 
-        font_label = ("Helvetica", 20)
-        font_entry = ("Helvetica", 20)
-        font_button = ("Helvetica", 16)
+        screen_width = self.winfo_screenwidth()
+        screen_height = self.winfo_screenheight()
 
-        # Frame principale
+        font_label = ("Helvetica", int(screen_height * 0.025))
+        font_entry = ("Helvetica", int(screen_height * 0.025))
+        font_button = ("Helvetica", int(screen_height * 0.02))
+
+        # Main frame (centered content)
         main_frame = tk.Frame(self, bg="#fbe8ea")
-        main_frame.pack(expand=True, pady=10)
+        main_frame.pack(expand=True)
 
-        # Champ bienvenue
+        # Welcome label
         tk.Label(
             main_frame,
             text="Bienvenue à toi jeune célibataire !",
-            font=("Helvetica", 24, "bold"),
+            font=("Helvetica", int(screen_height * 0.035), "bold"),
             bg="#fbe8ea",
-        ).pack(pady=100)
+        ).pack(pady=(int(screen_height * 0.06), int(screen_height * 0.03)))
 
-        # Champ Username
+        # Username label and entry
         tk.Label(
             main_frame, text="Nom d'utilisateur :", font=font_label, bg="#fbe8ea"
-        ).pack(pady=10)
-        self.user_entry = tk.Entry(main_frame, font=font_entry)
+        ).pack(pady=(10, 5))
+        self.user_entry = tk.Entry(main_frame, font=font_entry, width=30)
         self.user_entry.pack(pady=5)
 
-        # Champ Mot de passe
+        # Password label and entry
         tk.Label(main_frame, text="Mot de passe :", font=font_label, bg="#fbe8ea").pack(
-            pady=10
+            pady=(10, 5)
         )
-        self.password_entry = tk.Entry(main_frame, font=font_entry, show="*")
+        self.password_entry = tk.Entry(main_frame, font=font_entry, show="*", width=30)
         self.password_entry.pack(pady=5)
 
-        # Bouton Valider
+        # Validate button
         self.validate_button = tk.Button(
             main_frame,
             text="Valider",
@@ -63,12 +59,11 @@ class ConnectionView(tk.Tk):
             relief="flat",
             command=self.login,
         )
+        self.validate_button.pack(pady=(20, 30), ipadx=10, ipady=5)
 
-        self.validate_button.pack(pady=20)  # pady modifie
-
-        # Frame pour les deux petits boutons
+        # Bottom frame for links
         bottom_frame = tk.Frame(main_frame, bg="#fbe8ea")
-        bottom_frame.pack(pady=20)
+        bottom_frame.pack(pady=(int(screen_height * 0.02), int(screen_height * 0.04)))
 
         self.password_perdu = tk.Button(
             bottom_frame,
@@ -79,7 +74,9 @@ class ConnectionView(tk.Tk):
             relief="flat",
             command=self.mot_de_passe_perdu,
         )
-        self.password_perdu.pack(side=tk.LEFT, padx=100, pady=70)
+        self.password_perdu.pack(
+            side=tk.LEFT, padx=int(screen_width * 0.03), ipadx=5, ipady=5
+        )
 
         self.new_user = tk.Button(
             bottom_frame,
@@ -90,8 +87,9 @@ class ConnectionView(tk.Tk):
             relief="flat",
             command=self.creer_nouveau_compte,
         )
-
-        self.new_user.pack(side=tk.RIGHT, padx=100, pady=70)
+        self.new_user.pack(
+            side=tk.RIGHT, padx=int(screen_width * 0.03), ipadx=5, ipady=5
+        )
 
     def mot_de_passe_perdu(self):
         messagebox.showinfo(message="Dommage :(")
@@ -112,13 +110,9 @@ class ConnectionView(tk.Tk):
 
         user_account = self.account_controller.get_account(username)
 
-        if user_account is None:
-            messagebox.showerror(
-                "Erreur", "Nom d'utilisateur ou mot de passe incorrect."
-            )
-            return
-
-        if not self.account_controller.verify_password(username, password):
+        if user_account is None or not self.account_controller.verify_password(
+            username, password
+        ):
             messagebox.showerror(
                 "Erreur", "Nom d'utilisateur ou mot de passe incorrect."
             )

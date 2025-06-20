@@ -1,6 +1,7 @@
 import tkinter as tk
 from tkinter import ttk
 
+# This import would be from your project structure.
 from view.QuestionsView import QuestionsView
 
 
@@ -17,7 +18,14 @@ class AvatarCreationView(tk.Toplevel):
         self.window_controller = window_controller
         self.username = username
 
-        # On configure d'abord tous les styles qu'on utilisera ensuite
+        # --- Responsive Sizing Setup ---
+        screen_height = self.winfo_screenheight()
+        screen_width = self.winfo_screenwidth()
+        font_tab = ("Helvetica", int(screen_height * 0.02))
+        font_widget = ("Helvetica", int(screen_height * 0.018))
+        main_padding = int(screen_width * 0.02)
+        widget_padding = int(screen_height * 0.01)
+
         style = ttk.Style()
         style.theme_use("clam")
         style.configure("TNotebook", background="#fbe8ea", borderwidth=0)
@@ -25,42 +33,46 @@ class AvatarCreationView(tk.Toplevel):
             "TNotebook.Tab",
             background="#e1a4b6",
             foreground="white",
-            font=("Helvetica", 20),
-            padding=10,
+            font=font_tab,
+            padding=widget_padding,
         )
         style.configure("TFrame", background="#fbe8ea")
         style.configure(
-            "TLabel", background="#fbe8ea", font=("Helvetica", 20), foreground="#4b2e2e"
+            "TLabel", background="#fbe8ea", font=font_widget, foreground="#4b2e2e"
         )
         style.configure(
-            "TRadiobutton",
-            background="#fbe8ea",
-            font=("Helvetica", 20),
-            foreground="#4b2e2e",
+            "TRadiobutton", background="#fbe8ea", font=font_widget, foreground="#4b2e2e"
         )
         style.configure(
-            "TButton", background="#e1a4b6", foreground="white", font=("Helvetica", 20)
+            "TButton", background="#e1a4b6", foreground="white", font=font_widget
         )
 
-        # On construit le canva qui où sera l'avatar
-        self.canvas = tk.Canvas(
-            self, width=1000, height=1000, bg="#fbe8ea", highlightthickness=0 #supprime le contour de surbrillance
+        # --- Grid Layout Configuration for Responsiveness ---
+        self.grid_rowconfigure(0, weight=1)
+        self.grid_columnconfigure(0, weight=1)
+        self.grid_columnconfigure(
+            1, weight=1
+        )  # Using 1:1 weight ratio to give them equal space preference
+
+        # On construit le canva qui où sera l'avatar - NO fixed width/height
+        self.canvas = tk.Canvas(self, bg="#fbe8ea", highlightthickness=0)
+        self.canvas.grid(
+            row=0, column=1, padx=main_padding, pady=main_padding, sticky="nsew"
         )
-        self.canvas.grid(row=0, column=1, padx=40, pady=40, sticky="n") #on le colle à droite / nord
 
         # Notebook avec les différents onglets
         self.notebook = ttk.Notebook(self)
-        self.notebook.grid(row=0, column=0, sticky="nsew", padx=40, pady=40) # le widget s'étire dans toutes les direction nord, sud, est, ouest
-        
-        # Les onglets en question sont construits ici
+        self.notebook.grid(
+            row=0, column=0, sticky="nsew", padx=main_padding, pady=main_padding
+        )
+
         self.frames = {}
         categories = ["Cheveux", "Oreilles", "Nez", "Yeux", "Bouche", "Couleurs"]
         for cat in categories:
-            frame = ttk.Frame(self.notebook, padding=20)
+            frame = ttk.Frame(self.notebook, padding=widget_padding * 2)
             self.notebook.add(frame, text=cat)
-            self.frames[cat.lower()] = frame # Stockage des Frame dans un dictionnaire pour mieux les retrouver ensuite
+            self.frames[cat.lower()] = frame
 
-        # Les valeurs associées par défaut à l'avatar
         self.style_vars = {
             "cheveux": tk.StringVar(value="Longs"),
             "oreilles": tk.StringVar(value="Ronde"),
@@ -72,37 +84,49 @@ class AvatarCreationView(tk.Toplevel):
         self.hair_color = tk.StringVar(value="#FAEBA7")
         self.skin_tone = tk.IntVar(value=30)
 
-        # L'avatar est construit
         self.creation_portrait()
-        self.update_canvas()
 
-        self.grid_rowconfigure(0, weight=1) # weight : cette ligne recevra une part de l’espace supplémentaire quand la fenêtre s’agrandira.
-        self.grid_columnconfigure(0, weight=1)
+        # CRUCIAL: Bind the redraw to the canvas resize event
+        self.canvas.bind("<Configure>", lambda e: self.update_canvas())
 
     def update_canvas(self):
         """
-        fonction qui met à jour le canva selon quel bouton est cliqué (quelles caractériqtiques)
-        une partie de cette fonction a été générée par IA
-
-        Returns
-        -------
-        None.
-
+        Fonction qui met à jour le canva en ÉCHELONNANT le dessin original
+        pour qu'il s'adapte à la taille actuelle du canva.
         """
-
         self.canvas.delete("all")
+
+        canvas_width = self.canvas.winfo_width()
+        canvas_height = self.canvas.winfo_height()
+
+        if canvas_width <= 1 or canvas_height <= 1:
+            return
+
+        # Original dimensions from your hardcoded values
+        original_width = 1000
+        original_height = 1000
+
+        # Calculate scaling factors
+        scale_x = canvas_width / original_width
+        scale_y = canvas_height / original_height
+
+        # Use an average scale for line widths to prevent distortion
+        avg_scale = (scale_x + scale_y) / 2.0
+        scaled_line_width = max(1, int(6 * avg_scale))
+
+        # The original center point
+        center_x = 500
+        center_y = 500
 
         skin_color = self.couleur_peau()
         hair_color = self.hair_color.get()
 
-        center_x, center_y = 500, 500
-
         # Tête
         self.canvas.create_oval(
-            center_x - 200,
-            center_y - 200,
-            center_x + 200,
-            center_y + 200,
+            (center_x - 200) * scale_x,
+            (center_y - 200) * scale_y,
+            (center_x + 200) * scale_x,
+            (center_y + 200) * scale_y,
             fill=skin_color,
             outline="black",
         )
@@ -111,18 +135,18 @@ class AvatarCreationView(tk.Toplevel):
         style_cheveux = self.style_vars["cheveux"].get()
         if style_cheveux == "Longs":
             self.canvas.create_rectangle(
-                center_x - 200,
-                center_y - 240,
-                center_x + 200,
-                center_y - 180,
+                (center_x - 200) * scale_x,
+                (center_y - 240) * scale_y,
+                (center_x + 200) * scale_x,
+                (center_y - 180) * scale_y,
                 fill=hair_color,
             )
         elif style_cheveux == "Courts":
             self.canvas.create_rectangle(
-                center_x - 100,
-                center_y - 200,
-                center_x + 100,
-                center_y - 170,
+                (center_x - 100) * scale_x,
+                (center_y - 200) * scale_y,
+                (center_x + 100) * scale_x,
+                (center_y - 170) * scale_y,
                 fill=hair_color,
             )
 
@@ -130,50 +154,50 @@ class AvatarCreationView(tk.Toplevel):
         style_oreilles = self.style_vars["oreilles"].get()
         if style_oreilles == "Ronde":
             self.canvas.create_oval(
-                center_x - 240,
-                center_y - 50,
-                center_x - 200,
-                center_y + 50,
+                (center_x - 240) * scale_x,
+                (center_y - 50) * scale_y,
+                (center_x - 200) * scale_x,
+                (center_y + 50) * scale_y,
                 fill="black",
             )
             self.canvas.create_oval(
-                center_x + 200,
-                center_y - 50,
-                center_x + 240,
-                center_y + 50,
+                (center_x + 200) * scale_x,
+                (center_y - 50) * scale_y,
+                (center_x + 240) * scale_x,
+                (center_y + 50) * scale_y,
                 fill="black",
             )
         elif style_oreilles == "Carrée":
             self.canvas.create_rectangle(
-                center_x - 240,
-                center_y - 50,
-                center_x - 200,
-                center_y + 50,
+                (center_x - 240) * scale_x,
+                (center_y - 50) * scale_y,
+                (center_x - 200) * scale_x,
+                (center_y + 50) * scale_y,
                 fill="black",
             )
             self.canvas.create_rectangle(
-                center_x + 200,
-                center_y - 50,
-                center_x + 240,
-                center_y + 50,
+                (center_x + 200) * scale_x,
+                (center_y - 50) * scale_y,
+                (center_x + 240) * scale_x,
+                (center_y + 50) * scale_y,
                 fill="black",
             )
         elif style_oreilles == "Antenne":
             self.canvas.create_line(
-                center_x - 230,
-                center_y - 50,
-                center_x - 230,
-                center_y - 120,
+                (center_x - 230) * scale_x,
+                (center_y - 50) * scale_y,
+                (center_x - 230) * scale_x,
+                (center_y - 120) * scale_y,
                 fill="black",
-                width=6,
+                width=scaled_line_width,
             )
             self.canvas.create_line(
-                center_x + 230,
-                center_y - 50,
-                center_x + 230,
-                center_y - 120,
+                (center_x + 230) * scale_x,
+                (center_y - 50) * scale_y,
+                (center_x + 230) * scale_x,
+                (center_y - 120) * scale_y,
                 fill="black",
-                width=6,
+                width=scaled_line_width,
             )
 
         # Yeux
@@ -187,51 +211,51 @@ class AvatarCreationView(tk.Toplevel):
         eye_color = color_map[self.eye_color.get()]
         if form_yeux == "Rond":
             self.canvas.create_oval(
-                center_x - 100,
-                center_y - 50,
-                center_x - 60,
-                center_y - 10,
+                (center_x - 100) * scale_x,
+                (center_y - 50) * scale_y,
+                (center_x - 60) * scale_x,
+                (center_y - 10) * scale_y,
                 fill=eye_color,
             )
             self.canvas.create_oval(
-                center_x + 60,
-                center_y - 50,
-                center_x + 100,
-                center_y - 10,
+                (center_x + 60) * scale_x,
+                (center_y - 50) * scale_y,
+                (center_x + 100) * scale_x,
+                (center_y - 10) * scale_y,
                 fill=eye_color,
             )
         elif form_yeux == "Carré":
             self.canvas.create_rectangle(
-                center_x - 100,
-                center_y - 50,
-                center_x - 60,
-                center_y - 10,
+                (center_x - 100) * scale_x,
+                (center_y - 50) * scale_y,
+                (center_x - 60) * scale_x,
+                (center_y - 10) * scale_y,
                 fill=eye_color,
             )
             self.canvas.create_rectangle(
-                center_x + 60,
-                center_y - 50,
-                center_x + 100,
-                center_y - 10,
+                (center_x + 60) * scale_x,
+                (center_y - 50) * scale_y,
+                (center_x + 100) * scale_x,
+                (center_y - 10) * scale_y,
                 fill=eye_color,
             )
         elif form_yeux == "Triangle":
             self.canvas.create_polygon(
-                center_x - 80,
-                center_y - 50,
-                center_x - 100,
-                center_y - 10,
-                center_x - 60,
-                center_y - 10,
+                (center_x - 80) * scale_x,
+                (center_y - 50) * scale_y,
+                (center_x - 100) * scale_x,
+                (center_y - 10) * scale_y,
+                (center_x - 60) * scale_x,
+                (center_y - 10) * scale_y,
                 fill=eye_color,
             )
             self.canvas.create_polygon(
-                center_x + 80,
-                center_y - 50,
-                center_x + 60,
-                center_y - 10,
-                center_x + 100,
-                center_y - 10,
+                (center_x + 80) * scale_x,
+                (center_y - 50) * scale_y,
+                (center_x + 60) * scale_x,
+                (center_y - 10) * scale_y,
+                (center_x + 100) * scale_x,
+                (center_y - 10) * scale_y,
                 fill=eye_color,
             )
 
@@ -239,20 +263,28 @@ class AvatarCreationView(tk.Toplevel):
         style_nez = self.style_vars["nez"].get()
         if style_nez == "Petit":
             self.canvas.create_oval(
-                center_x - 20, center_y + 10, center_x + 20, center_y + 50, fill="black"
+                (center_x - 20) * scale_x,
+                (center_y + 10) * scale_y,
+                (center_x + 20) * scale_x,
+                (center_y + 50) * scale_y,
+                fill="black",
             )
         elif style_nez == "Grand":
             self.canvas.create_oval(
-                center_x - 40, center_y - 10, center_x + 40, center_y + 60, fill="black"
+                (center_x - 40) * scale_x,
+                (center_y - 10) * scale_y,
+                (center_x + 40) * scale_x,
+                (center_y + 60) * scale_y,
+                fill="black",
             )
         elif style_nez == "Pointu":
             self.canvas.create_polygon(
-                center_x,
-                center_y - 10,
-                center_x - 20,
-                center_y + 60,
-                center_x + 20,
-                center_y + 60,
+                (center_x) * scale_x,
+                (center_y - 10) * scale_y,
+                (center_x - 20) * scale_x,
+                (center_y + 60) * scale_y,
+                (center_x + 20) * scale_x,
+                (center_y + 60) * scale_y,
                 fill="black",
             )
 
@@ -260,49 +292,49 @@ class AvatarCreationView(tk.Toplevel):
         style_bouche = self.style_vars["bouche"].get()
         if style_bouche == "Sourire":
             self.canvas.create_arc(
-                center_x - 100,
-                center_y + 80,
-                center_x + 100,
-                center_y + 140,
+                (center_x - 100) * scale_x,
+                (center_y + 80) * scale_y,
+                (center_x + 100) * scale_x,
+                (center_y + 140) * scale_y,
                 start=0,
                 extent=-180,
                 style=tk.ARC,
                 outline="black",
-                width=6,
+                width=scaled_line_width,
             )
         elif style_bouche == "Droite":
             self.canvas.create_line(
-                center_x - 100,
-                center_y + 110,
-                center_x + 100,
-                center_y + 110,
+                (center_x - 100) * scale_x,
+                (center_y + 110) * scale_y,
+                (center_x + 100) * scale_x,
+                (center_y + 110) * scale_y,
                 fill="black",
-                width=6,
+                width=scaled_line_width,
             )
         elif style_bouche == "Triste":
             self.canvas.create_arc(
-                center_x - 100,
-                center_y + 110,
-                center_x + 100,
-                center_y + 170,
+                (center_x - 100) * scale_x,
+                (center_y + 110) * scale_y,
+                (center_x + 100) * scale_x,
+                (center_y + 170) * scale_y,
                 start=0,
                 extent=180,
                 style=tk.ARC,
                 outline="black",
-                width=6,
+                width=scaled_line_width,
             )
 
     def creation_portrait(self):
         """
-        fonction qui définit différentes options à cocher (radiobutton) pour chaque caractéristtique du potrait
-
-        Returns
-        -------
-        None.
-
+        Cette fonction reste la même, car elle configure juste les widgets.
+        Les polices sont déjà responsives grâce à la configuration du style dans __init__.
         """
+        screen_height = self.winfo_screenheight()
+        font_scale = ("Helvetica", int(screen_height * 0.015))
+        widget_padding = int(screen_height * 0.01)
+
         # Cheveux
-        frame = self.frames["cheveux"] # on utilise le dico construit au début !
+        frame = self.frames["cheveux"]
         ttk.Label(frame, text="Style des cheveux :").pack(anchor="w")
         for option in ["Longs", "Courts"]:
             ttk.Radiobutton(
@@ -312,8 +344,9 @@ class AvatarCreationView(tk.Toplevel):
                 value=option,
                 command=self.update_canvas,
             ).pack(anchor="w")
-
-        ttk.Label(frame, text="Couleur des cheveux :").pack(anchor="w", pady=(10, 0))
+        ttk.Label(frame, text="Couleur des cheveux :").pack(
+            anchor="w", pady=(widget_padding, 0)
+        )
         color_options = {
             "Blond très clair": "#FAEBA7",
             "Blond foncé": "#D4B157",
@@ -330,7 +363,7 @@ class AvatarCreationView(tk.Toplevel):
                 command=self.update_canvas,
             ).pack(anchor="w")
 
-        # Oreilles
+        # Oreilles, Nez, Yeux, Bouche... (pas de changements nécessaires ici)
         frame = self.frames["oreilles"]
         ttk.Label(frame, text="Forme des oreilles :").pack(anchor="w")
         for option in ["Ronde", "Carrée", "Antenne"]:
@@ -342,7 +375,6 @@ class AvatarCreationView(tk.Toplevel):
                 command=self.update_canvas,
             ).pack(anchor="w")
 
-        # Nez
         frame = self.frames["nez"]
         ttk.Label(frame, text="Forme du nez :").pack(anchor="w")
         for option in ["Petit", "Grand", "Pointu"]:
@@ -354,7 +386,6 @@ class AvatarCreationView(tk.Toplevel):
                 command=self.update_canvas,
             ).pack(anchor="w")
 
-        # Yeux
         frame = self.frames["yeux"]
         ttk.Label(frame, text="Forme des yeux :").pack(anchor="w")
         for option in ["Rond", "Carré", "Triangle"]:
@@ -365,8 +396,9 @@ class AvatarCreationView(tk.Toplevel):
                 value=option,
                 command=self.update_canvas,
             ).pack(anchor="w")
-
-        ttk.Label(frame, text="Couleur des yeux :").pack(anchor="w", pady=(10, 0))
+        ttk.Label(frame, text="Couleur des yeux :").pack(
+            anchor="w", pady=(widget_padding, 0)
+        )
         for color in ["bleu", "vert", "marron", "noir"]:
             ttk.Radiobutton(
                 frame,
@@ -376,7 +408,6 @@ class AvatarCreationView(tk.Toplevel):
                 command=self.update_canvas,
             ).pack(anchor="w")
 
-        # Bouche
         frame = self.frames["bouche"]
         ttk.Label(frame, text="Forme de la bouche :").pack(anchor="w")
         for option in ["Sourire", "Droite", "Triste"]:
@@ -388,7 +419,7 @@ class AvatarCreationView(tk.Toplevel):
                 command=self.update_canvas,
             ).pack(anchor="w")
 
-        # Couleurs (peau)
+        # Couleurs (peau) - la scale est aussi rendue responsive
         frame = self.frames["couleurs"]
         ttk.Label(frame, text="Couleur de la peau :").pack(anchor="w")
         skin_scale = tk.Scale(
@@ -401,44 +432,57 @@ class AvatarCreationView(tk.Toplevel):
             command=lambda e: self.update_canvas(),
             bg="#fbe8ea",
             fg="#4b2e2e",
-            width=20,
-            font=("Helvetica", 20),
+            width=int(screen_height * 0.02),
+            font=font_scale,
             troughcolor="#e1a4b6",
             highlightbackground="#fbe8ea",
         )
-        skin_scale.pack(fill="x", pady=10)
+        skin_scale.pack(fill="x", pady=widget_padding)
 
         btn = ttk.Button(
             frame, text="Sauvegarder son portrait robot", command=self.go_to_questions
         )
-        btn.pack(pady=10)
+        btn.pack(pady=widget_padding)
 
     def couleur_peau(self):
-        """
-        fonction qui permet d'ajuster la couleur de peau avec d'une scale
-        fonction générée à l'aide d'IA (chat gpt)
-
-        Returns
-        -------
-        str
-            le nom de la couleur avec les paramètres rgb (red,green,blue)
-
-        """
         t = self.skin_tone.get() / 100
         r = int((1 - t) * 245 + t * 85)
         g = int((1 - t) * 222 + t * 60)
         b = int((1 - t) * 179 + t * 40)
         return f"#{r:02x}{g:02x}{b:02x}"
-    
 
     def go_to_questions(self):
         self.save_avatar()
-        self.window_controller.go_to_window(self, QuestionsView(self.user_controller, self.window_controller, self.username))
+        self.window_controller.go_to_window(
+            self,
+            QuestionsView(self.user_controller, self.window_controller, self.username),
+        )
 
     def save_avatar(self):
         # TODO: Implement the logic to save the avatar creation data
         pass
 
+
 if __name__ == "__main__":
-    app = AvatarCreationView()
+    # --- Mock classes for standalone testing ---
+    class MockController:
+        def go_to_window(self, old_window, new_window):
+            print(f"Switching from {old_window.title()} to {new_window.title()}")
+            old_window.destroy()
+
+    class MockQuestionsView(tk.Toplevel):
+        def __init__(self, user_controller, window_controller, username: str):
+            super().__init__()
+            self.title("Questions")
+            tk.Label(self, text=f"This is the next screen for {username}").pack(
+                padx=100, pady=100
+            )
+            self.attributes("-fullscreen", True)
+
+    # Replace the real view with the mock for testing
+    QuestionsView = MockQuestionsView
+
+    root = tk.Tk()
+    root.withdraw()
+    app = AvatarCreationView(MockController(), MockController(), "TestUser")
     app.mainloop()

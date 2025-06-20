@@ -1,11 +1,3 @@
-#!/usr/bin/env python3
-# -*- coding: utf-8 -*-
-"""
-Created on Mon Jun  9 11:16:16 2025
-
-@author: mtobonguev
-"""
-
 import tkinter as tk
 
 
@@ -21,18 +13,21 @@ class MainView(tk.Toplevel):
         self.user_controller = user_controller
         self.window_controller = window_controller
 
-        font_button = ("Helvetica", 16)
+        screen_height = self.winfo_screenheight()
+
+        font_title = ("Helvetica", int(screen_height * 0.035), "bold")
+        font_button = ("Helvetica", int(screen_height * 0.025))
 
         # Frame principale
         main_frame = tk.Frame(self, bg="#fbe8ea")
-        main_frame.pack(expand=True, pady=10)
+        main_frame.pack(expand=True)
 
         tk.Label(
             main_frame,
             text="Bienvenue " + self.username,
-            font=("Helvetica", 24, "bold"),
+            font=font_title,
             bg="#fbe8ea",
-        ).pack(pady=40)
+        ).pack(pady=(int(screen_height * 0.05), int(screen_height * 0.03)))
 
         self.find_love_button = tk.Button(
             main_frame,
@@ -43,13 +38,17 @@ class MainView(tk.Toplevel):
             relief="flat",
             command=self.open_expectations_questions_vue,
         )
-
-        self.find_love_button.pack(pady=60)
+        self.find_love_button.pack(pady=int(screen_height * 0.04), ipadx=10, ipady=5)
 
     def open_expectations_questions_vue(self):
         from view.QuestionsView import QuestionsView
 
         self.window_controller.go_to_window(
             self,
-            QuestionsView(self.user_controller, self.window_controller, self.username, expectation_mode=True),
+            QuestionsView(
+                self.user_controller,
+                self.window_controller,
+                self.username,
+                expectation_mode=True,
+            ),
         )

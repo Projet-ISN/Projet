@@ -32,6 +32,9 @@ def load_user_as_person(username: str) -> dict:
 
         answers = [answer for answer in data.get("answers", {}).values()]
 
+        if not answers:
+            return None
+        
         answers.pop(4)
 
         expectations = [
